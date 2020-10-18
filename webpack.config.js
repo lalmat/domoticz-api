@@ -1,6 +1,6 @@
 const webpack = require("webpack");
 const path = require("path");
-const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
+const TerserPlugin = require('terser-webpack-plugin');
 
 let config = {
     entry: "./src/index.js",
@@ -10,18 +10,21 @@ let config = {
         library: 'Domoticz',
     },
     module: {
-        rules: [{
-          test: /\.js$/,
-          exclude: /node_modules/,
-          loader: "babel-loader"
-        }]
-    }
+      rules: [{
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: "babel-loader"
+      }]
+    },
+
 }
 
 if (process.env.NODE_ENV === 'production') {
-  module.exports.plugins.push(
-    new webpack.optimize.UglifyJsPlugin()
-  );
+  config.optimization = {
+    minimize: true,
+    minimizer: [new TerserPlugin()],
+  };
 }
 
 module.exports = config;
+
