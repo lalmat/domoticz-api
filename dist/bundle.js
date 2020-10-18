@@ -1,1 +1,1 @@
-document.write("Je débute avec Webpack !");
+document.write("J'apprends Webpack !Hello World");
