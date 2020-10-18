@@ -14,19 +14,23 @@
             async function test(command, params=null) {
                 switch(command) {
                     case "version":
-                        console.log(await api.version()); break;
+                        console.log(await api.Version()); break;
                     case "log":
-                        console.log(await api.log("Hello from Domoticz API \\o/")); break;
+                        console.log(await api.Log_push("Hello from Domoticz API \\o/")); break;
                     case "getTimes":
-                        console.log(await api.times()); break;
+                        console.log(await api.Times_all()); break;
                     case "getLights":
                         console.log(await api.Devices_getByType('light')); break;
                     case "notify":
-                        console.log(await api.notify('Sample Nofitification', 'Notification send using DomoticzAPI')); break;
+                        console.log(await api.Notify('Sample Nofitification', 'Notification send using DomoticzAPI')); break;
                     case "cameras":
                         console.log(await api.Cameras_all()); break;
-                    
                 }
+            }
+
+            async function testSwitch(value) {
+                let idx = $('#test_idx').value;
+                console.log(await api.LightSwitch_set(idx, value));
             }
 
             // Demo Tools Functions ---------------------------------------------------------------
@@ -102,9 +106,14 @@
         Look at the console in devTools
         <button type="button" onclick="test('version')">Test Version</button>
         <button type="button" onclick="test('log')">Test Log</button>
-        <button type="button" onclick="test('getTimes')">Test GetTimes</button>
+        <button type="button" onclick="test('times')">Test GetTimes</button>
         <button type="button" onclick="test('getLights')">Test GetLights</button>
         <button type="button" onclick="test('notify')">Test Notifications</button>
         <button type="button" onclick="test('cameras')">Test Cameras</button>
+        <hr />
+        Command device Id (idx) :
+        <input type="number" id="test_idx">
+        <button type="button" onclick="testSwitch('On')">ON</button>
+        <button type="button" onclick="testSwitch('Off')">OFF</button>
     </body>
 </html>

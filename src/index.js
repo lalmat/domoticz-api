@@ -25,15 +25,15 @@ class API {
     }
 
 
-
     // EVENTS -----------------------------------------------------------------
+
     async Events_all() {
         let uri = "type=events&param=list";
         return await this.domoticzCall(uri);
     }
 
-    // DEVICES READING --------------------------------------------------------
 
+    // DEVICES READING --------------------------------------------------------
 
     /**
      * Get all devices, including the hidden ones
@@ -92,7 +92,7 @@ class API {
 
     /**
      * Ask Domoticz to action a Light/Switch
-     * @param {integer} idx 
+     * @param {integer} idx
      * @param {string} command "On|Off"
      */
     async LightSwitch_set(idx, command="On") {
@@ -102,7 +102,7 @@ class API {
 
     /**
      * Ask Domoticz to toggle a Light/Switch
-     * @param {integer} idx 
+     * @param {integer} idx
      */
     async LightSwitch_toggle(idx) {
         let uri = `type=command&param=switchlight&idx=${idx}&switchcmd=Toggle`;
@@ -121,9 +121,9 @@ class API {
     // SERVICE FUNCTIONS ------------------------------------------------------
     /**
      * Write a message into Domoticz Logs
-     * @param {string} message 
+     * @param {string} message
      */
-    async log(message) {
+    async Log_push(message) {
         message = "----------- DOMOTICZ API -----------> " + message;
         let uri = `type=command&param=addlogmessage&message=${encodeURI(message)}`;
         return await this.domoticzCall(uri);
@@ -132,7 +132,7 @@ class API {
     /**
      * Get informations about the Domoticz Server
      */
-    async version() {
+    async Version() {
         let uri = "type=command&param=getversion";
         return await this.domoticzCall(uri);
     }
@@ -140,7 +140,7 @@ class API {
     /**
      * Get times (Local time, Sunset, Sunrise, etc.) from Domoticz Server
      */
-    async times() {
+    async Times_all() {
         let uri = "type=command&param=getSunRiseSet";
         return await this.domoticzCall(uri);
     }
@@ -151,7 +151,7 @@ class API {
      * @param {string} message
      * @param {string} subSystem "<null>|browser|fcm|http|kodi|lms|nma|prowl|pushalot|pushbullet|pushover|pushsafer|telegram"
      */
-    async notify(subject, message, subSystem=null) {
+    async Notify(subject, message, subSystem=null) {
         let uri = `type=command&param=sendnotification&subject=${encodeURI(subject)}&body=${encodeURI(message)}`;
         if (subSystem) uri += `subsystem=${subSystem}`;
         console.log(uri);
@@ -160,7 +160,7 @@ class API {
 
     /**
      * Generic API call
-     * @param {string} order 
+     * @param {string} order
      */
     async domoticzCall(order) {
         try {
