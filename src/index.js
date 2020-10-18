@@ -24,7 +24,6 @@ class API {
         this.domoticzUrl += "&";
     }
 
-
     // EVENTS -----------------------------------------------------------------
 
     async Events_all() {
@@ -119,6 +118,7 @@ class API {
     }
 
     // SERVICE FUNCTIONS ------------------------------------------------------
+
     /**
      * Write a message into Domoticz Logs
      * @param {string} message
@@ -154,7 +154,15 @@ class API {
     async Notify(subject, message, subSystem=null) {
         let uri = `type=command&param=sendnotification&subject=${encodeURI(subject)}&body=${encodeURI(message)}`;
         if (subSystem) uri += `subsystem=${subSystem}`;
-        console.log(uri);
+
+        return await this.domoticzCall(uri);
+    }
+
+    /**
+     * Reboot Domoticz Server
+     */
+    async Reboot() {
+        let uri = "type=command&param=system_reboot";
         return await this.domoticzCall(uri);
     }
 
