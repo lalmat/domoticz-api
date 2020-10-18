@@ -29,7 +29,6 @@ I'm actually focused on retrieving datas (Events / Camera / Devices). Then, I'll
 
 ## Available functions :
 
-| --------------  | ------------------------------------ | ----------------------- |
 | Function        | Comment                              | Parameters |
 | --------------  | ------------------------------------ | ----------|
 | Events_all()    | Retrieve all Events | |
