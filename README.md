@@ -23,3 +23,6 @@ You can use this lib as an import, or directly thru the browser.
 ```
 
 To see it in action, clone this repo, and go to demo/browser, then open index.html in you browser.
+
+## Todos:
+I'm actually focused on retrieving datas (Events / Camera / Devices). Then, I'll add domoticz management functions to add / delete devices.
