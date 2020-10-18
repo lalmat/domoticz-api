@@ -26,6 +26,9 @@ class API {
 
     // EVENTS -----------------------------------------------------------------
 
+    /**
+     * Retrieve all Domoticz Events
+     */
     async Events_all() {
         let uri = "type=events&param=list";
         return await this.domoticzCall(uri);
@@ -55,7 +58,7 @@ class API {
     /**
      * Retrieve devices of a specific type
      * @param {string} filter "light|weather|temp|utility|wind|rain|uv|baro|zwavealarms|all"
-     * @param {*} order 
+     * @param {string} order 
      */
     async Devices_getByType(filter, order="Name") {
         let allowed = [
@@ -111,6 +114,9 @@ class API {
 
     // CAMERAS ----------------------------------------------------------------
 
+    /**
+     * Get all cameras informations
+     */
     async Cameras_all() {
         let uri = "type=cameras";
         let response = await this.domoticzCall(uri);
@@ -130,7 +136,7 @@ class API {
     }
 
     /**
-     * Get informations about the Domoticz Server
+     * Get various informations about the Domoticz Server
      */
     async Version() {
         let uri = "type=command&param=getversion";
