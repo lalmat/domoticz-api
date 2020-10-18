@@ -24,9 +24,11 @@ class API {
         this.domoticzUrl += "&";
     }
 
-
     // EVENTS -----------------------------------------------------------------
 
+    /**
+     * Retrieve all Domoticz Events
+     */
     async Events_all() {
         let uri = "type=events&param=list";
         return await this.domoticzCall(uri);
@@ -56,7 +58,7 @@ class API {
     /**
      * Retrieve devices of a specific type
      * @param {string} filter "light|weather|temp|utility|wind|rain|uv|baro|zwavealarms|all"
-     * @param {*} order 
+     * @param {string} order 
      */
     async Devices_getByType(filter, order="Name") {
         let allowed = [
@@ -112,6 +114,9 @@ class API {
 
     // CAMERAS ----------------------------------------------------------------
 
+    /**
+     * Get all cameras informations
+     */
     async Cameras_all() {
         let uri = "type=cameras";
         let response = await this.domoticzCall(uri);
@@ -119,6 +124,7 @@ class API {
     }
 
     // SERVICE FUNCTIONS ------------------------------------------------------
+
     /**
      * Write a message into Domoticz Logs
      * @param {string} message
@@ -130,7 +136,7 @@ class API {
     }
 
     /**
-     * Get informations about the Domoticz Server
+     * Get various informations about the Domoticz Server
      */
     async Version() {
         let uri = "type=command&param=getversion";
@@ -154,7 +160,15 @@ class API {
     async Notify(subject, message, subSystem=null) {
         let uri = `type=command&param=sendnotification&subject=${encodeURI(subject)}&body=${encodeURI(message)}`;
         if (subSystem) uri += `subsystem=${subSystem}`;
-        console.log(uri);
+
+        return await this.domoticzCall(uri);
+    }
+
+    /**
+     * Reboot Domoticz Server
+     */
+    async Reboot() {
+        let uri = "type=command&param=system_reboot";
         return await this.domoticzCall(uri);
     }
 
