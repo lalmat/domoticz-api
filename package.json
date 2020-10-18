@@ -1,0 +1,39 @@
+{
+  "name": "domoticz-api",
+  "version": "0.1.0",
+  "description": "Domoticz API Javascript Connector",
+  "main": "./dist/bundle.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "webpack --watch",
+    "dev": "webpack",
+    "prod": "NODE_ENV=production webpack --progress"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lalmat/domoticz-api.git"
+  },
+  "keywords": [
+    "domoticz",
+    "api",
+    "javascript"
+  ],
+  "author": "Mathieu LALLEMAND",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lalmat/domoticz-api/issues"
+  },
+  "homepage": "https://github.com/lalmat/domoticz-api#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.1.0",
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^7.11.0",
+    "jshint": "^2.12.0",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack": "^5.1.3",
+    "webpack-cli": "^4.0.0",
+    "webpack-dev-server": "^3.11.0"
+  },
+  "dependencies": {}
+}
