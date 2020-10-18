@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Domoticz Demo
+        </title>
+        <script src="../dist/bundle.js"></script>
+        <script>
+            var api = null;
+            var domoticzHostname = null;
+            var domoticzOptions  = null;
+
+            async function testVersion() {
+                console.log(await api.version());
+            }
+
+            async function testLog() {
+                console.log(await api.log("Hello from Domoticz API \\o/"));
+            }
+
+            // Demo Tools Functions ---------------------------------------------------------------
+            function backup() {
+                domoticzHostname = $('#dzOpt_host').value;
+                domoticzOptions  = {
+                    useSSL  : $('#dzOpt_ssl').checked ? true : false,
+                    port    : $('#dzOpt_port').value > 0 ? $('#dzOpt_port').value : null,
+                    username: $('#dzOpt_username').value ? $('#dzOpt_username').value : null,
+                    password: $('#dzOpt_password').value ? $('#dzOpt_password').value : null,
+                }
+
+                localStorage.setItem('domoticzHostname', domoticzHostname);
+                localStorage.setItem('domoticzOptions', JSON.stringify(domoticzOptions));
+
+                api = new Domoticz.API(domoticzHostname, domoticzOptions);
+            }
+
+            function restore() {
+                domoticzHostname = localStorage.getItem('domoticzHostname');
+                domoticzOptions  = JSON.parse(localStorage.getItem('domoticzOptions'));
+
+                if (domoticzHostname) {
+                    $('#dzOpt_host').value    = domoticzHostname;
+                    $('#dzOpt_ssl').checked    = domoticzOptions.useSSL;
+                    $('#dzOpt_port').value     = domoticzOptions.port;
+                    $('#dzOpt_username').value = domoticzOptions.username;
+                    $('#dzOpt_password').value = domoticzOptions.password;
+                    api = new Domoticz.API(domoticzHostname, domoticzOptions);
+                }
+            }
+
+            function $(selector) {
+                return document.querySelector(selector);
+            }
+
+            window.onload = restore;
+        </script>
+    </head>
+    <body>
+        <div id="demo_config">
+            Domoticz IP/Host: <input type="text" id="dzOpt_host" />
+                        Port: <input type="number" id="dzOpt_port" />
+                      UseSSL: <input type="checkbox" id="dzOpt_ssl" />
+                    Username: <input type="text" id="dzOpt_username" />
+                    Password: <input type="password" id="dzOpt_password" />
+
+            <button type="button" onclick="backup()">
+                Set & Backup
+            </button>
+
+            <div id="update_setup_message"></div>
+        </div>
+        
+        <hr />
+
+        <button type="button" onclick="testVersion()">
+            Test Version
+        </button>
+
+        <button type="button" onclick="testLog()">
+            Test Log
+        </button>
+    </body>
+</html>
