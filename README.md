@@ -27,48 +27,45 @@ To see it in action, clone this repo, and go to demo/browser, then open index.ht
 ## Todos:
 I'm actually focused on retrieving datas (Events / Camera / Devices). Then, I'll add domoticz management functions to add / delete devices.
 
----------
+------
+## Cameras
 
-## Available functions :
-
-### Cameras
-
-**domoticz.camera.get()**:
+### **domoticz.camera.get()**
 Get all cameras informations
 
+------
+## Devices
 
-### Devices
-
-**domoticz.devices.get()**:
+### **domoticz.devices.get()**
 Get all devices, including the hidden ones
 
-**domoticz.devices_getByIdx(idx)**:
+### **domoticz.devices_getByIdx(idx)**
 Get a specific device using the idx device property value.
 
 | Parameter | Description                         |
 | --------- | ----------------------------------- |
 | idx       | idx value of the device in Domoticz |
 
-**domoticz.devices_getByType(filter, orderBy="Name")** :
+### **domoticz.devices_getByType(filter, orderBy="Name")**
 Get all devices of a certain type.
 
 | Parameter | Description                                                                    |
 | --------- | ------------------------------------------------------------------------------ |
 | filter    | light / weather / temp / utility / wind / rain / uv / baro / zwavealarms / all |
-| orderBy | device property to use during order by |
+| orderBy   | device property to use during order by                                         |
 
-**domoticz.devices_getFavorites()**:
+### **domoticz.devices_getFavorites()**
 Get Domoticz Favorites Devices
 
-
-### Events
-**domoticz.events.all()**:
+------
+## Events
+### **domoticz.events.all()**
 Retrieve all existing Events
 
+------
+## LightSwitch
 
-### LightSwitch
-
-**domoticz.lightSwitch.send(idx, command="On")**:
+### **domoticz.lightSwitch.send(idx, command="On")**
 Change state of a Light/Switch device.
 
 | Parameter | Description                                               |
@@ -76,17 +73,17 @@ Change state of a Light/Switch device.
 | idx       | idx value of the device in Domoticz                       |
 | command   | A Domoticz device command On/Off/... **case sensitive !** |
 
-**domoticz.lightSwitch.toggle(idx)**:
+### **domoticz.lightSwitch.toggle(idx)**
 Toggle a Light/Switch device.
 
 | Parameter | Description                         |
 | --------- | ----------------------------------- |
 | idx       | idx value of the device in Domoticz |
 
+------
+## Notification
 
-### Notification
-
-**domoticz.notification.send(subject, message, subsystem=null)**:
+### **domoticz.notification.send(subject, message, subsystem=null)**
 Send a notification through Domoticz Notification API.
 
 | Parameter | Description                           |
@@ -95,22 +92,22 @@ Send a notification through Domoticz Notification API.
 | message   | Body of the notification |
 | subSystem | Specify the Domoticz Notification subsystem to use : <null>/browser/fcm/http/kodi/lms/nma/prowl/pushalot/pushbullet/pushover/pushsafer/telegram |
 
+------
+## System
 
-### System
-
-**domoticz.system.datetimes()** :
+### **domoticz.system.datetimes()** :
 Get various datetimes (Local time, Sunset, Sunrise, etc.) from Domoticz Server.
 
-**domoticz.system.log(message)** :
+### **domoticz.system.log(message)** :
 Write a message into Domoticz Logs
 
 | Parameter | Description                           |
 | --------- | ------------------------------------- |
 | message   | message to write into Domoticz's logs |
 
-**domoticz.system.reboot()** :
+### **domoticz.system.reboot()** :
 Reboot the Domoticz server
 
-**domoticz.system.version()**:
+### **domoticz.system.version()**:
 Get various informations about the Domoticz Server
 
