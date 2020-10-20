@@ -2,7 +2,7 @@
 
 ## **Warning** : Work in progress.
 
-The goal of this project is to have an object to easely access a [Domoticz](https://www.domoticz.com) instance. Devices, user variables, send notifications, etc. will be accessible with just function calls. With Domoticz API, it's very easy to build  awesome frontend with javascript frameworks like Vue / React / Angular. 
+The goal of this project is to have an object to easely access a [Domoticz](https://www.domoticz.com) instance. Devices, user variables, send notifications, etc. will be accessible with just function calls. With Domoticz API, it's very easy to build awesome frontend with javascript frameworks like Vue / React / Angular.
 
 This API uses the interfaces as defined at Domoticz API/JSON URL's. This page does not describe all available url's. This API also uses some 'undocumented' api url's.
 
@@ -10,11 +10,12 @@ This API uses the interfaces as defined at Domoticz API/JSON URL's. This page do
 
 You can use this lib as an import, or directly thru the browser.
 
-### Browser Usage :
+### Browser usage :
+Place this into your HTML head section :
 ```html
     <script src="path_to/domoticz-api/dist/bundle.js"></script>
     <script>
-        var api = new Domoticz.API(YOUR_HOST, {
+        var domoticz = new DomoticzApi.DomoticzApi(YOUR_HOST, {
             useSSL : true,
             username: YOUR_USERNAME,
             password: YOUR_PASSWORD
@@ -24,8 +25,19 @@ You can use this lib as an import, or directly thru the browser.
 
 To see it in action, clone this repo, and go to demo/browser, then open index.html in you browser.
 
+### Library usage :
+```javascript
+import DomoticzApi from "./domoticz-api/dist/bundle.js";
+
+let domoticz = new DomoticzApi(YOUR_HOST, {
+    useSSL : true,
+    username: YOUR_USERNAME,
+    password: YOUR_PASSWORD
+});
+```
+------
 ## Todos:
-I'm actually focused on retrieving datas (Events / Camera / Devices). Then, I'll add domoticz management functions to add / delete devices.
+I'm actually focused on retrieving datas (Events / Camera / Devices). Then, I'll add domoticz management functions to add / delete devices, then I'll dig into Domoticz source code to get undocumented functions available.
 
 ------
 ## Cameras
@@ -110,4 +122,3 @@ Reboot the Domoticz server
 
 ### **domoticz.system.version()**:
 Get various informations about the Domoticz Server
-
