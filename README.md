@@ -30,7 +30,7 @@ I'm actually focused on retrieving datas (Events / Camera / Devices). Then, I'll
 ------
 ## Cameras
 
-### **domoticz.camera.get()**
+### **domoticz.cameras.get()**
 Get all cameras informations
 
 ------
