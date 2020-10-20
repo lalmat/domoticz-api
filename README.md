@@ -10,6 +10,12 @@ This API uses the interfaces as defined at Domoticz API/JSON URL's. This page do
 
 You can use this lib as an import, or directly thru the browser.
 
+### Installation:
+Download this repository to get an up to date version or :
+```bash
+npm install domoticz-api-linker
+```
+
 ### Browser usage :
 Place this into your HTML head section :
 ```html
