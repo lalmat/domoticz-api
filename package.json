@@ -1,5 +1,5 @@
 {
-  "name": "domoticz-api",
+  "name": "domoticz-api-linker",
   "version": "0.1.0",
   "description": "Domoticz API Javascript Connector",
   "main": "./dist/bundle.js",
