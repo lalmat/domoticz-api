@@ -8,59 +8,59 @@
     <link rel="stylesheet" href="./style.css">
     <script src="../../dist/bundle.js"></script>
     <script>
-        var api = null;
-        var domoticzHostname = null;
-        var domoticzOptions = null;
+        var domoticz = null;
+        var hostname = null;
+        var options  = null;
 
         async function test(command, params = null) {
             switch (command) {
                 case "version":
-                    console.log(await api.Version()); break;
+                    console.log(await domoticz.system.version()); break;
                 case "log":
-                    console.log(await api.Log_push("Hello from Domoticz API \\o/")); break;
-                case "getTimes":
-                    console.log(await api.Times_all()); break;
+                    console.log(await domoticz.system.log("Hello from Domoticz API \\o/")); break;
+                case "times":
+                    console.log(await domoticz.system.datetimes()); break;
                 case "getLights":
-                    console.log(await api.Devices_getByType('light')); break;
+                    console.log(await domoticz.devices.getByType('light')); break;
                 case "notify":
-                    console.log(await api.Notify('Sample Nofitification', 'Notification send using DomoticzAPI')); break;
+                    console.log(await domoticz.notification.send('Sample Nofitification', 'Notification send using DomoticzAPI')); break;
                 case "cameras":
-                    console.log(await api.Cameras_all()); break;
+                    console.log(await domoticz.cameras.get()); break;
             }
         }
 
         async function testSwitch(value) {
             let idx = $('#test_idx').value;
-            console.log(await api.LightSwitch_set(idx, value));
+            console.log(await domoticz.lightSwitch.send(idx, value));
         }
 
         // Demo Tools Functions ---------------------------------------------------------------
         function backup() {
-            domoticzHostname = $('#dzOpt_host').value;
-            domoticzOptions = {
+            hostname = $('#dzOpt_host').value;
+            options = {
                 useSSL: $('#dzOpt_ssl').checked ? true : false,
                 port: $('#dzOpt_port').value > 0 ? $('#dzOpt_port').value : null,
                 username: $('#dzOpt_username').value ? $('#dzOpt_username').value : null,
                 password: $('#dzOpt_password').value ? $('#dzOpt_password').value : null,
             }
 
-            localStorage.setItem('domoticzHostname', domoticzHostname);
-            localStorage.setItem('domoticzOptions', JSON.stringify(domoticzOptions));
+            localStorage.setItem('hostname', hostname);
+            localStorage.setItem('options', JSON.stringify(options));
 
-            api = new Domoticz.API(domoticzHostname, domoticzOptions);
+            domoticz = new DomoticzApi.DomoticzApi(hostname, options);
         }
 
         function restore() {
-            domoticzHostname = localStorage.getItem('domoticzHostname');
-            domoticzOptions = JSON.parse(localStorage.getItem('domoticzOptions'));
+            hostname = localStorage.getItem('hostname');
+            options = JSON.parse(localStorage.getItem('options'));
 
-            if (domoticzHostname) {
-                $('#dzOpt_host').value = domoticzHostname;
-                $('#dzOpt_ssl').checked = domoticzOptions.useSSL;
-                $('#dzOpt_port').value = domoticzOptions.port;
-                $('#dzOpt_username').value = domoticzOptions.username;
-                $('#dzOpt_password').value = domoticzOptions.password;
-                api = new Domoticz.API(domoticzHostname, domoticzOptions);
+            if (hostname) {
+                $('#dzOpt_host').value = hostname;
+                $('#dzOpt_ssl').checked = options.useSSL;
+                $('#dzOpt_port').value = options.port;
+                $('#dzOpt_username').value = options.username;
+                $('#dzOpt_password').value = options.password;
+                domoticz = new DomoticzApi.DomoticzApi(hostname, options);
             }
         }
 

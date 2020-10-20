@@ -7,7 +7,7 @@ let config = {
     output: {
         path: path.resolve(__dirname, "./dist"),
         filename: "./bundle.js",
-        library: 'Domoticz',
+        library: 'DomoticzApi',
     },
     module: {
       rules: [{
