@@ -25,9 +25,9 @@ export default class {
     /**
      * Retrieve devices of a specific type
      * @param {string} filter "light|weather|temp|utility|wind|rain|uv|baro|zwavealarms|all"
-     * @param {string} order
+     * @param {string} orderBy
      */
-    async getByType(filter, order="Name") {
+    async getByType(filter, orderBy="Name") {
         let allowed = [
             "light",
             "weather",
@@ -42,7 +42,7 @@ export default class {
         ].indexOf(filter) !== false;
         if (!allowed) return false;
 
-        let uri = `type=devices&filter=${filter}&used=true&order=${order}`;
+        let uri = `type=devices&filter=${filter}&used=true&order=${orderBy}`;
         let response = await this.api.send(uri);
         return response.result;
     }
