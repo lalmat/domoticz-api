@@ -38,4 +38,28 @@ export default class {
         let uri = "type=command&param=system_reboot";
         return await this.api.send(uri);
     }
+
+    /**
+     * Shutdown the Domoticz Server
+     */
+    async shutdown() {
+        let uri = "type=command&param=system_reboot";
+        return await this.api.send(uri);
+    }
+
+    /**
+     * Start Database backup
+     */
+    async db_backup() {
+        let uri = "backupdatabase.php";
+        return await this.api.url(uri);
+    }
+
+    /**
+     * Execute database cleanup
+     */
+    async db_vaccum() {
+        let uri = "type=command&param=vacuumdatabase";
+        return await this.api.send(uri);
+    }
 }

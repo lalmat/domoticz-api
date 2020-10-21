@@ -34,4 +34,17 @@ export default class {
             console.log("Domotiz API Query Error: ", e);
         }
     }
+
+    /**
+     * Generic API call
+     * @param {string} order
+     */
+    async url(url) {
+        try {
+            return await Axios.get(url);
+        }
+        catch (e) {
+            console.log("Domotiz API URL Error: ", e);
+        }
+    }
 }
