@@ -55,4 +55,23 @@ export default class {
         let response = await this.api.send(uri);
         return response.result;
     }
+
+
+    /**
+     * Ask Domoticz to action a Light/Switch
+     * @param {integer} idx
+     * @param {string} command "On|Off"
+     */
+    async switch(idx, command="On") {
+        let uri = `type=command&param=switchlight&idx=${idx}&switchcmd=${command}`;
+        return await this.api.send(uri);
+    }
+
+    /**
+     * Ask Domoticz to toggle a Light/Switch
+     * @param {integer} idx
+     */
+    async toggle(idx) {
+        this.switch(idx, "Toggle");
+    }
 }
