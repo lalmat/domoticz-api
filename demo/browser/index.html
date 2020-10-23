@@ -31,7 +31,7 @@
 
         async function testSwitch(value) {
             let idx = $('#test_idx').value;
-            console.log(await domoticz.lightSwitch.send(idx, value));
+            console.log(await domoticz.devices.switch(idx, value));
         }
 
         // Demo Tools Functions ---------------------------------------------------------------

@@ -56,7 +56,6 @@ export default class {
         return response.result;
     }
 
-
     /**
      * Ask Domoticz to action a Light/Switch
      * @param {integer} idx
