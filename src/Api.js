@@ -1,50 +1,50 @@
 import Axios from "axios";
 export default class {
 
-    constructor(hostname, options) {
+  constructor(hostname, options) {
 
-        this.domoticzUrl  = options.useSSL ? "https://" : "http://";
-        this.domoticzUrl += hostname;
+    this.domoticzUrl  = options.useSSL ? "https://" : "http://";
+    this.domoticzUrl += hostname;
 
-        if (options?.port) {
-            this.domoticzUrl += `:${options.port}`;
-        }
-
-        this.domoticzUrl += "/json.htm?_connector=domoticz-api";
-
-        if (options?.username && options?.password) {
-            this.domoticzUrl += `&username=${btoa(options.username)}`;
-            this.domoticzUrl += `&password=${btoa(options.password)}`;
-        }
-
-        this.domoticzUrl += "&";
+    if (options?.port) {
+      this.domoticzUrl += `:${options.port}`;
     }
 
-    /**
+    this.domoticzUrl += "/json.htm?_connector=domoticz-api";
+
+    if (options?.username && options?.password) {
+      this.domoticzUrl += `&username=${btoa(options.username)}`;
+      this.domoticzUrl += `&password=${btoa(options.password)}`;
+    }
+
+    this.domoticzUrl += "&";
+  }
+
+  /**
      * Generic API call
      * @param {string} order
      */
-    async send(order) {
-        try {
-            let result = await Axios.get(this.domoticzUrl+order);
-            if (result.data.status === "OK") return result.data;
-            return null;
-        }
-        catch (e) {
-            console.log("Domotiz API Query Error: ", e);
-        }
+  async send(order) {
+    try {
+      let result = await Axios.get(this.domoticzUrl+order);
+      if (result.data.status === "OK") return result.data;
+      return null;
     }
+    catch (e) {
+      console.log("Domotiz API Query Error: ", e);
+    }
+  }
 
-    /**
+  /**
      * Generic API call
      * @param {string} order
      */
-    async url(url) {
-        try {
-            return await Axios.get(url);
-        }
-        catch (e) {
-            console.log("Domotiz API URL Error: ", e);
-        }
+  async url(url) {
+    try {
+      return await Axios.get(url);
     }
+    catch (e) {
+      console.log("Domotiz API URL Error: ", e);
+    }
+  }
 }
