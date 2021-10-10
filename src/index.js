@@ -3,7 +3,7 @@ import Api from "./Api";
 import Cameras      from "./CamerasContoller";
 import Devices      from "./DevicesController";
 import Events       from "./EventsController";
-import Scenes       from "./SceneController";
+import Scenes       from "./ScenesController";
 import Notification from "./NotificationController";
 import System       from "./SystemController";
 
