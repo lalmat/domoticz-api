@@ -5,11 +5,12 @@ export default class {
   }
 
   /**
-     * Get all cameras informations
-     */
+   * Get all cameras informations
+   */
   async get() {
     let uri = "type=cameras";
     let response = await this.api.send(uri);
     return response.result;
   }
+
 }
