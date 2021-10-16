@@ -1,5 +1,7 @@
 import Axios from "axios";
+
 export default class {
+
 
   constructor(hostname, options) {
 
@@ -13,8 +15,11 @@ export default class {
     this.domoticzUrl += "/json.htm?_connector=domoticz-api";
 
     if (options?.username && options?.password) {
-      this.domoticzUrl += `&username=${btoa(options.username)}`;
-      this.domoticzUrl += `&password=${btoa(options.password)}`;
+      let isBrowser = this.window === this;
+      let base64_username = isBrowser ? Buffer.from(options.username, 'base64') : btoa(options.username);
+      let base64_password = isBrowser ? Buffer.from(options.username, 'base64') : btoa(options.password);
+
+      this.domoticzUrl += `&username=${base64_username}&password=${base64_password}`;
     }
 
     this.domoticzUrl += "&";
