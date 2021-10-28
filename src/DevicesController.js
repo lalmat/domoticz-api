@@ -89,7 +89,7 @@ export default class {
    * Set/Remove the protection on a device identified by idx
    * @param {boolean} state
    */
-  async setProtection(state="true") {
+  async setProtection(idx, state="true") {
     let uri = `type=setused&used=true&protected=${state?'true':'false'}&idx=${idx}`
     let response = await this.api.send(uri);
     return response.result;
