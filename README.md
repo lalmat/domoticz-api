@@ -49,8 +49,8 @@ I'm actually focused on retrieving datas (Events / Camera / Devices). Then, I'll
 ## 📜 Documentation:
 
 * [Cameras](docs/cameras.md)
-* [Devices](docs/cameras.md)
-* [Events](docs/cameras.md)
-* [Notification](docs/cameras.md)
-* [Scenes](docs/cameras.md)
-* [System](docs/cameras.md)
+* [Devices](docs/devices.md)
+* [Events](docs/events.md)
+* [Notification](docs/notifications.md)
+* [Scenes](docs/scenes.md)
+* [System](docs/system.md)
