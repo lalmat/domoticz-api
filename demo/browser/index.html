@@ -21,6 +21,8 @@
             console.log(await domoticz.system.log("Hello from Domoticz API \\o/")); break;
           case "times":
             console.log(await domoticz.system.datetimes()); break;
+          case "getEverything":
+            console.log(await domoticz.devices.get()); break;
           case "getLights":
             console.log(await domoticz.devices.getByType('light')); break;
           case "notify":
@@ -33,6 +35,12 @@
       async function testSwitch(value) {
         let idx = $('#test_idx').value;
         console.log(await domoticz.devices.switch(idx, value));
+      }
+
+      async function testUpdateTemp() {
+        let idx = $('#test_idx').value;
+        let value = $('#test_svalue').value;
+        console.log(await domoticz.devices.updateTemperature(idx, value));
       }
 
       // Demo Tools Functions ---------------------------------------------------------------
@@ -133,6 +141,7 @@
         <button type="button" onclick="test('version')">Test Version</button>
         <button type="button" onclick="test('log')">Test Log</button>
         <button type="button" onclick="test('times')">Test GetTimes</button>
+        <button type="button" onclick="test('getEverything')">Test EVERYTHING !</button>
         <button type="button" onclick="test('getLights')">Test GetLights</button>
         <button type="button" onclick="test('notify')">Test Notifications</button>
         <button type="button" onclick="test('cameras')">Test Cameras</button>
@@ -147,6 +156,9 @@
         <input type="number" id="test_idx">
         <button type="button" onclick="testSwitch('On')">ON</button>
         <button type="button" onclick="testSwitch('Off')">OFF</button>
+        |
+        Value : <input type="text" id="test_svalue">
+        <button type="button" onclick="testUpdateTemp()">Set Temp.</button>
       </div>
     </div>
   </body>
