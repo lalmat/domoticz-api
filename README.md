@@ -6,6 +6,9 @@ The goal of this project is to have an object to easely access a [Domoticz](http
 
 This API uses the interfaces as defined at Domoticz API/JSON URL's. This page does not describe all available url's. This API also uses some 'undocumented' api url's.
 
+## About Domoticz API
+Domoticz API helps create a central sensor-controlled portal for synchronizing home utility devices ranging from electrical devices, electronic gadgets, water, and gas as well as weather monitoring instruments. It is a RESTful API that generates JSON returns from HTTP requests.
+
 ## This is a "working" but beta version
 
 You can use this lib as an import, or directly thru the browser.
