@@ -4,41 +4,43 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Domoticz Demo</title>
     <link rel="stylesheet" href="./style.css" />
-    <script src="../../dist/bundle.js"></script>
+    <script src="../../dist/bundle.mjs"></script>
     <script>
       var domoticz = null;
       var hostname = null;
       var options = null;
 
-      async function log(promise) {
-        console.log(await promise);
+      async function log(domoticzCall) {
+        console.log(await domoticzCall);
       }
 
       async function test(command, params = null) {
         switch (command) {
           case "version":
-            log(domoticz.system.version());
+            log(domoticz.systemManager.version());
             break;
 
           case "log":
-            log(domoticz.system.log("Hello from Domoticz API \\o/"));
+            log(domoticz.systemManager.log("Hello from Domoticz API \\o/"));
             break;
 
           case "times":
-            log(domoticz.system.datetimes());
+            log(domoticz.systemManager.datetimes());
             break;
 
-          case "getEverything":
-            log(domoticz.devices.all());
+          case "getAllDevices":
+            log(domoticz.deviceManager.items());
             break;
 
           case "getLights":
-            log(domoticz.devices.getByType("light"));
+            log(
+              domoticz.deviceManager.getByType(DomoticzApi.deviceTypes.LIGHT)
+            );
             break;
 
           case "notify":
             log(
-              domoticz.notification.send(
+              domoticz.notificationManager.send(
                 "Sample Nofitification",
                 "Notification send using DomoticzAPI"
               )
@@ -46,18 +48,18 @@
             break;
 
           case "cameras":
-            console.log(await domoticz.cameras.all());
+            console.log(await domoticz.cameraManager.items());
             break;
         }
       }
 
       async function testSwitch(value) {
-        log(await domoticz.devices.change($("#test_idx").value, value));
+        log(await domoticz.deviceManager.switch($("#test_idx").value, value));
       }
 
       async function testUpdateTemp() {
         log(
-          await domoticz.devices.updateTemperature(
+          await domoticz.deviceManager.updateTemperature(
             $("#test_idx").value,
             $("#test_svalue").value
           )
@@ -85,7 +87,7 @@
         backup.password = "";
         localStorage.setItem("options", JSON.stringify(backup));
 
-        domoticz = new DomoticzApi.DomoticzApi(hostname, options);
+        domoticz = DomoticzApi.Domoticz(hostname, options);
       }
 
       function restore() {
@@ -98,7 +100,8 @@
           $("#dzOpt_port").value = options.port;
           $("#dzOpt_username").value = options.username;
           $("#dzOpt_password").value = options.password;
-          domoticz = new DomoticzApi.DomoticzApi(hostname, options);
+
+          domoticz = DomoticzApi.Domoticz(hostname, options);
         }
       }
 
@@ -171,8 +174,8 @@
         <button type="button" onclick="test('version')">Test Version</button>
         <button type="button" onclick="test('log')">Test Log</button>
         <button type="button" onclick="test('times')">Test GetTimes</button>
-        <button type="button" onclick="test('getEverything')">
-          Test EVERYTHING !
+        <button type="button" onclick="test('getAllDevices')">
+          Test GetAllDevices
         </button>
         <button type="button" onclick="test('getLights')">
           Test GetLights

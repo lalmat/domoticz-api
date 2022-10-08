@@ -12,7 +12,10 @@ const deviceTypes = {
 };
 
 function isDeviceType(type) {
-  return Object.values(deviceTypes).find(type) != undefined;
+  const result =
+    Object.values(deviceTypes).find((value) => value == type) != undefined;
+  if (!result) console.log("DeviceType not found", type);
+  return result;
 }
 
 function useDevices(domoticzApi) {
@@ -20,18 +23,11 @@ function useDevices(domoticzApi) {
     /**
      * Get all devices, including the hidden ones
      */
-    all() {
+    items() {
       return domoticzApi.devices({
         used: true,
         displayhidden: 1,
       });
-    },
-
-    /**
-     * @deprecated
-     */
-    get() {
-      return this.all();
     },
 
     /**
@@ -74,7 +70,7 @@ function useDevices(domoticzApi) {
      * @param {integer} idx
      * @param {string} command "On|Off"
      */
-    change(idx, command = "On") {
+    switch(idx, command = "On") {
       return domoticzApi.command({
         param: "switchlight",
         idx,
