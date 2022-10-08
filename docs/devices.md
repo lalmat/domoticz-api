@@ -144,7 +144,6 @@ You can use this method if there's no specific method for an update.
 
 Refer to the [Domoticz API](https://www.domoticz.com/wiki/Domoticz_API/JSON_URL's#Update_devices.2Fsensors) to find what to use as `sValue` and `nValue`.
 
-
 | Parameter | Description                          |
 | --------- | ------------------------------------ |
 | idx       | idx value of the device in Domoticz  |

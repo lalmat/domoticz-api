@@ -1,5 +1,4 @@
 export default class {
-
   constructor(ApiBridge) {
     this.api = ApiBridge;
   }
@@ -23,9 +22,9 @@ export default class {
    */
   switch(idx, command) {
     return this.api.command({
-      param: 'switch',
+      param: "switch",
       idx,
-      switchcmd: command
+      switchcmd: command,
     });
   }
 

@@ -1,74 +1,89 @@
 <!DOCTYPE html>
 <html>
-
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>
-      Domoticz Demo
-    </title>
-    <link rel="stylesheet" href="./style.css">
+    <title>Domoticz Demo</title>
+    <link rel="stylesheet" href="./style.css" />
     <script src="../../dist/bundle.js"></script>
     <script>
       var domoticz = null;
       var hostname = null;
-      var options  = null;
+      var options = null;
 
       async function test(command, params = null) {
         switch (command) {
           case "version":
-            console.log(await domoticz.system.version()); break;
+            console.log(await domoticz.system.version());
+            break;
           case "log":
-            console.log(await domoticz.system.log("Hello from Domoticz API \\o/")); break;
+            console.log(
+              await domoticz.system.log("Hello from Domoticz API \\o/")
+            );
+            break;
           case "times":
-            console.log(await domoticz.system.datetimes()); break;
+            console.log(await domoticz.system.datetimes());
+            break;
           case "getEverything":
-            console.log(await domoticz.devices.get()); break;
+            console.log(await domoticz.devices.get());
+            break;
           case "getLights":
-            console.log(await domoticz.devices.getByType('light')); break;
+            console.log(await domoticz.devices.getByType("light"));
+            break;
           case "notify":
-            console.log(await domoticz.notification.send('Sample Nofitification', 'Notification send using DomoticzAPI')); break;
+            console.log(
+              await domoticz.notification.send(
+                "Sample Nofitification",
+                "Notification send using DomoticzAPI"
+              )
+            );
+            break;
           case "cameras":
-            console.log(await domoticz.cameras.get()); break;
+            console.log(await domoticz.cameras.get());
+            break;
         }
       }
 
       async function testSwitch(value) {
-        let idx = $('#test_idx').value;
+        let idx = $("#test_idx").value;
         console.log(await domoticz.devices.switch(idx, value));
       }
 
       async function testUpdateTemp() {
-        let idx = $('#test_idx').value;
-        let value = $('#test_svalue').value;
+        let idx = $("#test_idx").value;
+        let value = $("#test_svalue").value;
         console.log(await domoticz.devices.updateTemperature(idx, value));
       }
 
       // Demo Tools Functions ---------------------------------------------------------------
       function backup() {
-        hostname = $('#dzOpt_host').value;
+        hostname = $("#dzOpt_host").value;
         options = {
-          useSSL: $('#dzOpt_ssl').checked ? true : false,
-          port: $('#dzOpt_port').value > 0 ? $('#dzOpt_port').value : null,
-          username: $('#dzOpt_username').value ? $('#dzOpt_username').value : null,
-          password: $('#dzOpt_password').value ? $('#dzOpt_password').value : null,
-        }
+          useSSL: $("#dzOpt_ssl").checked ? true : false,
+          port: $("#dzOpt_port").value > 0 ? $("#dzOpt_port").value : null,
+          username: $("#dzOpt_username").value
+            ? $("#dzOpt_username").value
+            : null,
+          password: $("#dzOpt_password").value
+            ? $("#dzOpt_password").value
+            : null,
+        };
 
-        localStorage.setItem('hostname', hostname);
-        localStorage.setItem('options', JSON.stringify(options));
+        localStorage.setItem("hostname", hostname);
+        localStorage.setItem("options", JSON.stringify(options));
 
         domoticz = new DomoticzApi.DomoticzApi(hostname, options);
       }
 
       function restore() {
-        hostname = localStorage.getItem('hostname');
-        options = JSON.parse(localStorage.getItem('options'));
+        hostname = localStorage.getItem("hostname");
+        options = JSON.parse(localStorage.getItem("options"));
 
         if (hostname) {
-          $('#dzOpt_host').value = hostname;
-          $('#dzOpt_ssl').checked = options.useSSL;
-          $('#dzOpt_port').value = options.port;
-          $('#dzOpt_username').value = options.username;
-          $('#dzOpt_password').value = options.password;
+          $("#dzOpt_host").value = hostname;
+          $("#dzOpt_ssl").checked = options.useSSL;
+          $("#dzOpt_port").value = options.port;
+          $("#dzOpt_username").value = options.username;
+          $("#dzOpt_password").value = options.password;
           domoticz = new DomoticzApi.DomoticzApi(hostname, options);
         }
       }
@@ -87,13 +102,13 @@
       <div class="subhead">
         <div>
           Domoticz is a very light weight home automation system that lets you
-          monitor and configure miscellaneous devices, including lights, switches, various sensors/meters like
-          temperature, rainfall, wind, ultraviolet (UV) radiation, electricity usage/production, gas consumption,
-          water consumption and many more. <a href="https://www.domoticz.com/">Learn more about Domoticz</a>
+          monitor and configure miscellaneous devices, including lights,
+          switches, various sensors/meters like temperature, rainfall, wind,
+          ultraviolet (UV) radiation, electricity usage/production, gas
+          consumption, water consumption and many more.
+          <a href="https://www.domoticz.com/">Learn more about Domoticz</a>
         </div>
-        <div>
-          Use this page to easely access and test a Domoticz instance.
-        </div>
+        <div>Use this page to easely access and test a Domoticz instance.</div>
       </div>
     </div>
     <div class="form-section-wrap">
@@ -102,65 +117,72 @@
       <div class="form-subsection-wrap">
         <div>
           <span>Domoticz IP/Host (required):</span>
-          <input type="text" id="dzOpt_host">
+          <input type="text" id="dzOpt_host" />
         </div>
         <div>
           <span>Port:</span>
-          <input type="number" id="dzOpt_port">
+          <input type="number" id="dzOpt_port" />
         </div>
         <div>
           <span>UseSSL:</span>
-          <input type="checkbox" id="dzOpt_ssl">
+          <input type="checkbox" id="dzOpt_ssl" />
         </div>
       </div>
-        <div class="form-subsection-wrap">
-          <div>
-            <span>Username:</span>
-            <input type="text" id="dzOpt_username">
-          </div>
-          <div>
-            <span>Password:</span>
-            <input type="password" id="dzOpt_password">
-          </div>
+      <div class="form-subsection-wrap">
+        <div>
+          <span>Username:</span>
+          <input type="text" id="dzOpt_username" />
+        </div>
+        <div>
+          <span>Password:</span>
+          <input type="password" id="dzOpt_password" />
+        </div>
 
-          <button type="button" class="btn btn-primary" onclick="backup()">
-            Set & Backup
-          </button>
+        <button type="button" class="btn btn-primary" onclick="backup()">
+          Set & Backup
+        </button>
 
-          <div id="update_setup_message"></div>
+        <div id="update_setup_message"></div>
       </div>
     </div>
 
     <div class="form-section-wrap">
       <h2>Test</h2>
       <div class="subhead">
-        After configuring your Domoticz instance, press one of the buttons below. Then check the
-        console in your browser's developer tools to see the results.
+        After configuring your Domoticz instance, press one of the buttons
+        below. Then check the console in your browser's developer tools to see
+        the results.
       </div>
       <div class="form-subsection-wrap">
         <button type="button" onclick="test('version')">Test Version</button>
         <button type="button" onclick="test('log')">Test Log</button>
         <button type="button" onclick="test('times')">Test GetTimes</button>
-        <button type="button" onclick="test('getEverything')">Test EVERYTHING !</button>
-        <button type="button" onclick="test('getLights')">Test GetLights</button>
-        <button type="button" onclick="test('notify')">Test Notifications</button>
+        <button type="button" onclick="test('getEverything')">
+          Test EVERYTHING !
+        </button>
+        <button type="button" onclick="test('getLights')">
+          Test GetLights
+        </button>
+        <button type="button" onclick="test('notify')">
+          Test Notifications
+        </button>
         <button type="button" onclick="test('cameras')">Test Cameras</button>
       </div>
     </div>
 
     <div class="form-section-wrap">
       <h2>Device ID</h2>
-      <div class="subhead">Enter your Command Device ID (IDX) and then click a button.</div>
+      <div class="subhead">
+        Enter your Command Device ID (IDX) and then click a button.
+      </div>
       <div class="form-subsection-wrap">
         Command Device ID (IDX) :
-        <input type="number" id="test_idx">
+        <input type="number" id="test_idx" />
         <button type="button" onclick="testSwitch('On')">ON</button>
         <button type="button" onclick="testSwitch('Off')">OFF</button>
-        |
-        Value : <input type="text" id="test_svalue">
+        | Value : <input type="text" id="test_svalue" />
         <button type="button" onclick="testUpdateTemp()">Set Temp.</button>
       </div>
     </div>
   </body>
-
 </html>

@@ -1,5 +1,4 @@
 export default class {
-
   constructor(ApiBridge) {
     this.api = ApiBridge;
   }
@@ -10,12 +9,12 @@ export default class {
    * @param {string} message
    * @param {string} subSystem "<null>|browser|fcm|http|kodi|lms|nma|prowl|pushalot|pushbullet|pushover|pushsafer|telegram"
    */
-  send(subject, message, subSystem = '') {
+  send(subject, message, subSystem = "") {
     return this.api.command({
-      param: 'sendnotification',
+      param: "sendnotification",
       subject,
       body: message,
-      subsystem: subSystem
+      subsystem: subSystem,
     });
   }
 }

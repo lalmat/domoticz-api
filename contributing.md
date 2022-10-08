@@ -1,6 +1,7 @@
 # Contributing
 
 ## Work on issues
+
 Just check that nobody is working on an issues before working on it ;)
 
 ## Code of conduct
