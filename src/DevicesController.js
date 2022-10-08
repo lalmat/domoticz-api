@@ -75,10 +75,10 @@ export default class {
    * @param {string} command "On|Off"
    */
   switch(idx, command = "On") {
-    return this.api.devices({
+    return this.api.command({
       param: "switchlight",
       idx,
-      switchcmd: command.toLowerCase == "on" ? "On" : "Off",
+      switchcmd: command.toLowerCase() === "on" ? "On" : "Off",
     });
   }
 
@@ -87,7 +87,7 @@ export default class {
    * @param {integer} idx
    */
   toggle(idx) {
-    return this.api.devices({
+    return this.api.command({
       param: "switchlight",
       idx,
       switchcmd: "Toggle",
@@ -100,7 +100,7 @@ export default class {
    * @param {string} name
    */
   rename(idx, name) {
-    return this.api.devices({
+    return this.api.command({
       param: "renamedevice",
       idx,
       name,
@@ -111,7 +111,7 @@ export default class {
    * Set/Remove the protection on a device identified by idx
    * @param {boolean} state
    */
-  setProtection(idx, state = true) {
+  protect(idx, state = true) {
     return this.api.setUsed({
       used: true,
       idx,
