@@ -83,7 +83,7 @@ const domoticz = Domoticz(YOUR_HOST, {
 All things can be imported at wish :
 
 ```javascript
-import { deviceTypes } from "DomoticzApi";
+import { deviceTypes } from "domoticz-api-linker";
 ```
 
 | Import                     | Description                                                         |
