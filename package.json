@@ -1,6 +1,6 @@
 {
   "name": "domoticz-api-linker",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Domoticz API Javascript Connector",
   "type": "module",
   "main": "./dist/bundle.js",
