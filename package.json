@@ -2,6 +2,7 @@
   "name": "domoticz-api-linker",
   "version": "0.1.0",
   "description": "Domoticz API Javascript Connector",
+  "type": "module",
   "main": "./dist/bundle.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

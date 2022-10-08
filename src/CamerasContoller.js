@@ -7,10 +7,11 @@ export default class {
   /**
    * Get all cameras informations
    */
-  async get() {
-    let uri = "type=cameras";
-    let response = await this.api.send(uri);
-    return response.result;
+  all() {
+    return this.api.cameras();
   }
 
+  get() {
+    return this.all();
+  }
 }
