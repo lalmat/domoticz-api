@@ -1,5 +1,4 @@
 export default class {
-
   constructor(ApiBridge) {
     this.api = ApiBridge;
   }
@@ -10,8 +9,8 @@ export default class {
    */
   log(message) {
     return this.api.command({
-      param   : 'addlogmessage',
-      message : `############# DOMOTICZ API ############# => ${message}`
+      param: "addlogmessage",
+      message: `############# DOMOTICZ API ############# => ${message}`,
     });
   }
 
@@ -19,29 +18,28 @@ export default class {
    * Get various informations about the Domoticz Server
    */
   version() {
-    return this.api.command({ param   : 'getversion' })
+    return this.api.command({ param: "getversion" });
   }
 
   /**
    * Get times (Local time, Sunset, Sunrise, etc.) from Domoticz Server
    */
   datetimes() {
-    return this.api.command({ param: 'getSunRiseSet' })
+    return this.api.command({ param: "getSunRiseSet" });
   }
-
 
   /**
    * Reboot Domoticz Server
    */
   reboot() {
-    return this.api.command({ param: 'system_reboot' })
+    return this.api.command({ param: "system_reboot" });
   }
 
   /**
    * Shutdown the Domoticz Server
    */
   shutdown() {
-    return this.api.command({ param: 'system_shutdown' })
+    return this.api.command({ param: "system_shutdown" });
   }
 
   /**
@@ -55,6 +53,6 @@ export default class {
    * Execute database cleanup
    */
   db_vaccum() {
-    return this.api.command({param : vaccumdatabase});
+    return this.api.command({ param: "vaccumdatabase" });
   }
 }

@@ -1,5 +1,4 @@
 export default class {
-
   constructor(ApiBridge) {
     this.api = ApiBridge;
   }
@@ -10,7 +9,7 @@ export default class {
   all() {
     return this.api.devices({
       used: true,
-      displayhidden: 1
+      displayhidden: 1,
     });
   }
 
@@ -18,14 +17,13 @@ export default class {
     return this.all();
   }
 
-
   /**
    * Get a specific device
    * @param {integer} idx
    */
   getByIdx(idx) {
     return this.api.devices({
-      rid: idx
+      rid: idx,
     });
   }
 
@@ -40,7 +38,7 @@ export default class {
       "uv",
       "baro",
       "zwavealarms",
-      "all"
+      "all",
     ];
   }
 
@@ -49,14 +47,14 @@ export default class {
    * @param {string} filter "light|weather|temp|utility|wind|rain|uv|baro|zwavealarms|all"
    * @param {string} orderBy
    */
-  async getByType(filter, orderBy="Name") {
+  async getByType(filter, orderBy = "Name") {
     const filterAllowed = (await this.types()).includes(filter);
     if (!filterAllowed) return false;
 
     return this.api.devices({
       filter,
       used: true,
-      order: orderBy
+      order: orderBy,
     });
   }
 
@@ -66,8 +64,8 @@ export default class {
   getFavorites() {
     return this.api.devices({
       used: true,
-      filter: all,
-      favorite: 1
+      filter: "all",
+      favorite: 1,
     });
   }
 
@@ -76,11 +74,11 @@ export default class {
    * @param {integer} idx
    * @param {string} command "On|Off"
    */
-  switch(idx, command="On") {
+  switch(idx, command = "On") {
     return this.api.devices({
-      param: 'switchlight',
+      param: "switchlight",
       idx,
-      switchcmd: (command.toLowerCase == 'on') ? 'On' : 'Off'
+      switchcmd: command.toLowerCase == "on" ? "On" : "Off",
     });
   }
 
@@ -90,9 +88,9 @@ export default class {
    */
   toggle(idx) {
     return this.api.devices({
-      param: 'switchlight',
+      param: "switchlight",
       idx,
-      switchcmd: 'Toggle'
+      switchcmd: "Toggle",
     });
   }
 
@@ -101,12 +99,11 @@ export default class {
    * @param {int} idx
    * @param {string} name
    */
-   rename(idx, name)
-   {
+  rename(idx, name) {
     return this.api.devices({
-      param: 'renamedevice',
+      param: "renamedevice",
       idx,
-      name
+      name,
     });
   }
 
@@ -114,12 +111,11 @@ export default class {
    * Set/Remove the protection on a device identified by idx
    * @param {boolean} state
    */
-  setProtection(idx, state = true)
-  {
+  setProtection(idx, state = true) {
     return this.api.setUsed({
       used: true,
       idx,
-      protected: state ? 'true' : 'false'
+      protected: state ? "true" : "false",
     });
   }
 
@@ -130,8 +126,7 @@ export default class {
    * @param {int} temperature
    * @returns
    */
-  updateTemperature(idx, temperature)
-  {
+  updateTemperature(idx, temperature) {
     return this.updateDevice(idx, temperature);
   }
 
@@ -143,8 +138,7 @@ export default class {
    * @param {string} humidityState [0: Normal, 1: Confortable, 2: Dry, 3: Wet]
    * @returns
    */
-  updateHumidity(idx, humidityPercent, humidityState)
-  {
+  updateHumidity(idx, humidityPercent, humidityState) {
     if (humidityPercent < 0 || humidityPercent > 100) return null;
     if (humidityState < 0 || humidityState > 5) return null;
     return this.updateDevice(idx, humidityState, humidityPercent);
@@ -180,9 +174,7 @@ export default class {
    *
    * @returns
    */
-  updateBarometer(idx, barometer, barometerForecast)
-  {
-    if (humidityState < 0 || humidityState > 9) return null;
+  updateBarometer(idx, barometer, barometerForecast) {
     return this.updateDevice(idx, `${barometer};${barometerForecast}`);
   }
 
@@ -194,14 +186,12 @@ export default class {
    * @param {*} nValue
    * @returns
    */
-  updateDevice(idx, svalue, nvalue = 0)
-  {
+  updateDevice(idx, svalue, nvalue = 0) {
     return this.api.command({
-      param: 'udevice',
+      param: "udevice",
       idx,
       svalue,
-      nvalue
+      nvalue,
     });
   }
-
 }

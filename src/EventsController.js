@@ -1,5 +1,4 @@
 export default class {
-
   constructor(ApiBridge) {
     this.api = ApiBridge;
   }
@@ -9,7 +8,7 @@ export default class {
    */
   all() {
     return this.api.events({
-      param: 'list'
+      param: "list",
     });
   }
 
