@@ -17,7 +17,7 @@ import { useSystem } from "./domoticz/system.js";
 
 function Domoticz(hostname, options) {
   const domoticzApi = options?.api
-    ? options.api
+    ? new options.api(hostname, options)
     : new DomoticzApiProviderFetch(hostname, options);
   return {
     cameraManager: useCameras(domoticzApi),
