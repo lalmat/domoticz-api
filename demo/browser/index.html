@@ -10,48 +10,58 @@
       var hostname = null;
       var options = null;
 
+      async function log(promise) {
+        console.log(await promise);
+      }
+
       async function test(command, params = null) {
         switch (command) {
           case "version":
-            console.log(await domoticz.system.version());
+            log(domoticz.system.version());
             break;
+
           case "log":
-            console.log(
-              await domoticz.system.log("Hello from Domoticz API \\o/")
-            );
+            log(domoticz.system.log("Hello from Domoticz API \\o/"));
             break;
+
           case "times":
-            console.log(await domoticz.system.datetimes());
+            log(domoticz.system.datetimes());
             break;
+
           case "getEverything":
-            console.log(await domoticz.devices.get());
+            log(domoticz.devices.all());
             break;
+
           case "getLights":
-            console.log(await domoticz.devices.getByType("light"));
+            log(domoticz.devices.getByType("light"));
             break;
+
           case "notify":
-            console.log(
-              await domoticz.notification.send(
+            log(
+              domoticz.notification.send(
                 "Sample Nofitification",
                 "Notification send using DomoticzAPI"
               )
             );
             break;
+
           case "cameras":
-            console.log(await domoticz.cameras.get());
+            console.log(await domoticz.cameras.all());
             break;
         }
       }
 
       async function testSwitch(value) {
-        let idx = $("#test_idx").value;
-        console.log(await domoticz.devices.switch(idx, value));
+        log(await domoticz.devices.change($("#test_idx").value, value));
       }
 
       async function testUpdateTemp() {
-        let idx = $("#test_idx").value;
-        let value = $("#test_svalue").value;
-        console.log(await domoticz.devices.updateTemperature(idx, value));
+        log(
+          await domoticz.devices.updateTemperature(
+            $("#test_idx").value,
+            $("#test_svalue").value
+          )
+        );
       }
 
       // Demo Tools Functions ---------------------------------------------------------------
@@ -69,7 +79,11 @@
         };
 
         localStorage.setItem("hostname", hostname);
-        localStorage.setItem("options", JSON.stringify(options));
+
+        // removing password from localStorage (security issue)
+        let backup = { ...options };
+        backup.password = "";
+        localStorage.setItem("options", JSON.stringify(backup));
 
         domoticz = new DomoticzApi.DomoticzApi(hostname, options);
       }
