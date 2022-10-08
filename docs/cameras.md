@@ -1,5 +1,5 @@
 ## Cameras
 
-### **domoticz.cameras.get()**
+### **domoticz.cameraManager.items()**
 
 Get all cameras informations

@@ -1,5 +1,5 @@
 ## Events
 
-### **domoticz.events.get()**
+### **domoticz.events.items()**
 
 Retrieve all existing Events

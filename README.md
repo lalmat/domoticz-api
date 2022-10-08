@@ -25,7 +25,7 @@ Place this into your HTML head section :
 ```html
 <script src="path_to/domoticz-api/dist/bundle.js"></script>
 <script>
-  var domoticz = new DomoticzApi.DomoticzApi(YOUR_HOST, {
+  const domoticz = DomoticzApi.Domoticz(YOUR_HOST, {
     useSSL: true,
     username: YOUR_USERNAME,
     password: YOUR_PASSWORD,
@@ -35,27 +35,83 @@ Place this into your HTML head section :
 
 To see it in action, clone this repo, and go to demo/browser, then open index.html in you browser.
 
-### Library usage :
+### Usage in React/Vue/xxx :
 
 ```javascript
-import DomoticzApi from "./domoticz-api/dist/bundle.js";
+import { Domoticz } from "./domoticz-api/dist/bundle.js";
 
-let domoticz = new DomoticzApi(YOUR_HOST, {
+const domoticz = Domoticz(YOUR_HOST, {
   useSSL: true,
   username: YOUR_USERNAME,
   password: YOUR_PASSWORD,
 });
 ```
 
+### Usage
+
+```javascript
+// Get All devices:
+const items = await domoticz.devicesManager.items();
+
+// Get all lights :
+const lights = await domoticz.getByType(domoticz.deviceTypes.LIGHT);
+
+// Switch on the first light :
+domoticz.switch(lights.results[0].idx, "On");
+```
+
+### Using another HTTP layer
+
+By default DomoticzApi use `fetch`. If you want to use axios :
+
+- Create a new class (eg. `DomoticzApiProviderAxios` which extends the `DomoticzApiProvider` class
+- Implement the `__generic()` function to deal with axios
+- Pass this class in the `api` parameter in options like this:
+
+```javascript
+import { DomoticzApiProviderAxios } from "./DomoticzApiProviderAxios";
+const domoticz = Domoticz(YOUR_HOST, {
+  useSSL: true,
+  username: YOUR_USERNAME,
+  password: YOUR_PASSWORD,
+  api: DomoticzApiProviderAxios,
+});
+```
+
+### Imports
+
+All things can be imported at wish :
+
+```javascript
+import { deviceTypes } from "DomoticzApi";
+```
+
+| Import                     | Description                                                         |
+| -------------------------- | ------------------------------------------------------------------- |
+| Domoticz                   | The main Domoticz object, giving you access to all the managers     |
+| DomoticzApiProvider        | A class used to override the HTTP api call with you prefered flavor |
+| DomoticzApiProviderFetch   | Defaut HTTP api call layer using native javascript `fetch` object   |
+| deviceTypes                | Contain the Domoticz devices types                                  |
+| deviceHumidityTypes        | Contain the Domoticz humidity types                                 |
+| deviceHumidityGeneralTypes | Contain the Domoticz humidity types for 'General' devices           |
+| useDevices(api)            | methods available in Domoticz.deviceManager                         |
+| useCameras(api)            | methods available in Domoticz.cameraManager                         |
+| useEvents(api)             | methods available in Domoticz.eventManager                          |
+| useNotifications(api)      | methods available in Domoticz.notificationManager                   |
+| useScenes(api)             | methods available in Domoticz.sceneManager                          |
+| useSystem(api)             | methods available in Domoticz.systemManager                         |
+
 ---
 
 ## 🎯 Todos:
 
-I'm actually focused on retrieving datas (Events / Camera / Devices). Then, I'll add Domoticz management functions to add / delete devices, then I'll dig into Domoticz source code to get undocumented functions available.
+- [x] Refactoring API
+- [ ] Adding management functions (WIP)
+- [ ] Digging into Domoticz Source Code to implement undocumented functions
 
 ---
 
-## 📜 Documentation:
+## 📜 API Documentation:
 
 - [Cameras](docs/cameras.md)
 - [Devices](docs/devices.md)

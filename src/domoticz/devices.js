@@ -11,8 +11,34 @@ const deviceTypes = {
   ALL: "all",
 };
 
-function isDeviceType(type) {
-  return Object.values(deviceTypes).find(type) != undefined;
+const deviceHumidityGeneralTypes = {
+  STABLE: 0,
+  SUNNY: 1,
+  CLOUDY: 2,
+  UNSABLE: 3,
+  THUNDERSTORM: 4,
+  UNKNOWN: 5,
+  CLOUDY_RAIN: 6,
+};
+
+const deviceHumidityTypes = {
+  HEAVY_SNOW: 0,
+  SNOW: 1,
+  HEAVY_RAIN: 2,
+  RAIN: 3,
+  CLOUDY: 4,
+  SOME_CLOUDS: 5,
+  SUNNY: 6,
+  UNKNOWN: 7,
+  UNSTABLE: 8,
+  STABLE: 9,
+};
+
+function isType(Types, type) {
+  const result =
+    Object.values(Types).find((value) => value == type) != undefined;
+  if (!result) console.log("DeviceType not found", type);
+  return result;
 }
 
 function useDevices(domoticzApi) {
@@ -20,18 +46,11 @@ function useDevices(domoticzApi) {
     /**
      * Get all devices, including the hidden ones
      */
-    all() {
+    items() {
       return domoticzApi.devices({
         used: true,
         displayhidden: 1,
       });
-    },
-
-    /**
-     * @deprecated
-     */
-    get() {
-      return this.all();
     },
 
     /**
@@ -50,7 +69,7 @@ function useDevices(domoticzApi) {
      * @param {string} orderBy
      */
     getByType(filter, orderBy = "Name") {
-      if (!isDeviceType(filter)) return false;
+      if (!isType(deviceTypes, filter)) return false;
       return domoticzApi.devices({
         filter,
         used: true,
@@ -74,7 +93,7 @@ function useDevices(domoticzApi) {
      * @param {integer} idx
      * @param {string} command "On|Off"
      */
-    change(idx, command = "On") {
+    switch(idx, command = "On") {
       return domoticzApi.command({
         param: "switchlight",
         idx,
@@ -149,33 +168,12 @@ function useDevices(domoticzApi) {
      *
      * @param {int} idx
      * @param {int} barometer Atmospheric Pressure
-     * @param {int} barometerForecast see below
-     *
-     * If the device is a "General" Barometer device, forecast can be one of:
-     * 0 = Stable
-     * 1 = Sunny
-     * 2 = Cloudy
-     * 3 = Unstable
-     * 4 = Thunderstorm
-     * 5 = Unknown
-     * 6 = Cloudy/Rain
-     *
-     * For other device types can be one of:
-     * 0 = Heavy Snow
-     * 1 = Snow
-     * 2 = Heavy Rain
-     * 3 = Rain
-     * 4 = Cloudy
-     * 5 = Some Clouds
-     * 6 = Sunny
-     * 7 = Unknown
-     * 8 = Unstable
-     * 9 = Stable
+     * @param {deviceHumidityType} deviceHumidityType use a deviceHumidityGeneralType (if device.Type is 'General'), or deviceHumidityType otherwise.
      *
      * @returns
      */
-    updateBarometer(idx, barometer, barometerForecast) {
-      return this.updateDevice(idx, `${barometer};${barometerForecast}`);
+    async updateBarometer(idx, barometer, deviceHumidityType) {
+      return this.updateDevice(idx, `${barometer};${deviceHumidityType}`);
     },
 
     /**
@@ -197,4 +195,9 @@ function useDevices(domoticzApi) {
   };
 }
 
-export { deviceTypes, useDevices };
+export {
+  deviceTypes,
+  deviceHumidityGeneralTypes,
+  deviceHumidityTypes,
+  useDevices,
+};

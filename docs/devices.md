@@ -1,12 +1,12 @@
 ## Devices
 
-### **domoticz.devices.get()**
+### **domoticz.deviceManager.items()**
 
 Get all devices, including the hidden ones
 
 ---
 
-### **domoticz.devices.getByIdx(idx)**
+### **domoticz.deviceManager.getByIdx(idx)**
 
 Get a specific device using the idx device property value.
 
@@ -16,24 +16,26 @@ Get a specific device using the idx device property value.
 
 ---
 
-### **domoticz.devices.getByType(filter, orderBy="Name")**
+### **domoticz.deviceManager.getByType(filter, orderBy="Name")**
 
 Get all devices of a certain type.
 
-| Parameter | Description                                                                    |
-| --------- | ------------------------------------------------------------------------------ |
-| filter    | light / weather / temp / utility / wind / rain / uv / baro / zwavealarms / all |
-| orderBy   | device property to use during order by                                         |
+| Parameter | Description                            |
+| --------- | -------------------------------------- |
+| filter    | a supported device type                |
+| orderBy   | device property to use during order by |
+
+> `filter` is an item of `domoticz.deviceTypes.*` like `domoticz.deviceType.LIGHT`
 
 ---
 
-### **domoticz.devices.getFavorites()**
+### **domoticz.deviceManager.getFavorites()**
 
 Get Domoticz Favorites Devices
 
 ---
 
-### **domoticz.devices.switch(idx, command="On")**
+### **domoticz.deviceManager.switch(idx, command="On")**
 
 Change state of a Light/Switch device.
 
@@ -44,7 +46,7 @@ Change state of a Light/Switch device.
 
 ---
 
-### **domoticz.devices.toggle(idx)**
+### **domoticz.deviceManager.toggle(idx)**
 
 Toggle a Light/Switch device.
 
@@ -54,7 +56,7 @@ Toggle a Light/Switch device.
 
 ---
 
-### **domoticz.devices.rename(idx, newName)**
+### **domoticz.deviceManager.rename(idx, newName)**
 
 Rename the device
 
@@ -65,7 +67,7 @@ Rename the device
 
 ---
 
-### **domoticz.devices.setProtection(idx, state)**
+### **domoticz.deviceManager.protect(idx, state)**
 
 Change protection mode of the device. An administrator password is needed
 in a popup to switch a protected device.
@@ -77,7 +79,7 @@ in a popup to switch a protected device.
 
 ---
 
-### **domoticz.devices.updateTemperature(idx, temperature)**
+### **domoticz.deviceManager.updateTemperature(idx, temperature)**
 
 Update the temperature associated to the device (Termometers).
 
@@ -88,7 +90,7 @@ Update the temperature associated to the device (Termometers).
 
 ---
 
-### **domoticz.devices.updateHumidity(idx, humidityPercent, humidityState)**
+### **domoticz.deviceManager.updateHumidity(idx, humidityPercent, humidityState)**
 
 Update the temperature associated to the device (Termometers).
 
@@ -100,7 +102,7 @@ Update the temperature associated to the device (Termometers).
 
 ---
 
-### **domoticz.devices.updateBarometer(idx, barometer, barometerForecast)**
+### **domoticz.deviceManager.updateBarometer(idx, barometer, barometerForecast)**
 
 Update the temperature associated to the device (Termometers).
 
@@ -108,36 +110,11 @@ Update the temperature associated to the device (Termometers).
 | --------------- | ----------------------------------- |
 | idx             | idx value of the device in Domoticz |
 | humidityPercent | Atmospheric Pressure                |
-| humidityState   | barometerForecast see below         |
+| humidityState   | a deviceHumidityType                |
 
-For devices of type "General" use theses values for humidityState :
+> Use a `domoticz.deviceHumidityTypes.*` (or if your device is a 'General' type, use one of `domoticz.deviceHumidityGeneralTypes.*` instead.
 
-| Value | Signification |
-| ----- | ------------- |
-| 0     | Stable        |
-| 1     | Sunny         |
-| 2     | Cloudy        |
-| 3     | Unstable      |
-| 4     | Thunderstorm  |
-| 5     | Unknown       |
-| 6     | Cloudy/Rain   |
-
-For other device types use theses values for humidityState :
-
-| Value | Signification |
-| ----- | ------------- |
-| 0     | Heavy Snow    |
-| 1     | Snow          |
-| 2     | Heavy Rain    |
-| 3     | Rain          |
-| 4     | Cloudy        |
-| 5     | Some Clouds   |
-| 6     | Sunny         |
-| 7     | Unknown       |
-| 8     | Unstable      |
-| 9     | Stable        |
-
-### **domoticz.devices.updateDevice(idx, sValue, nValue = 0)**
+### **domoticz.deviceManager.updateDevice(idx, sValue, nValue = 0)**
 
 This is a generic device update, used by update devices methods above.
 You can use this method if there's no specific method for an update.

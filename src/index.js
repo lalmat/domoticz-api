@@ -1,22 +1,46 @@
+import { DomoticzApiProvider } from "./providers/DomoticzApiProvider.js";
 import { DomoticzApiProviderFetch } from "./providers/DomoticzApiProviderFetch.js";
-import { deviceTypes, useDevices } from "./DomoticzDevices.js";
-import Cameras from "./CamerasContoller.js";
-import Events from "./EventsController.js";
-import Scenes from "./ScenesController.js";
-import Notification from "./NotificationController.js";
-import System from "./SystemController.js";
+import {
+  deviceTypes,
+  deviceHumidityTypes,
+  deviceHumidityGeneralTypes,
+  useDevices,
+} from "./domoticz/devices.js";
+import { useCameras } from "./domoticz/cameras.js";
+import { useEvents } from "./domoticz/events.js";
+import { useScenes } from "./domoticz/scenes.js";
+import {
+  notificationTypes,
+  useNotifications,
+} from "./domoticz/notifications.js";
+import { useSystem } from "./domoticz/system.js";
 
-class DomoticzApi {
-  constructor(hostname, options) {
-    const domoticzApi = new DomoticzApiProviderFetch(hostname, options);
-    this.devices = useDevices(domoticzApi);
-
-    this.cameras = new Cameras(domoticzApi);
-    this.events = new Events(domoticzApi);
-    this.scenes = new Scenes(domoticzApi);
-    this.notification = new Notification(domoticzApi);
-    this.system = new System(domoticzApi);
-  }
+function Domoticz(hostname, options) {
+  const domoticzApi = options?.api
+    ? new options.api(hostname, options)
+    : new DomoticzApiProviderFetch(hostname, options);
+  return {
+    cameraManager: useCameras(domoticzApi),
+    deviceManager: useDevices(domoticzApi),
+    eventManager: useEvents(domoticzApi),
+    notificationManager: useNotifications(domoticzApi),
+    sceneManager: useScenes(domoticzApi),
+    systemManager: useSystem(domoticzApi),
+  };
 }
 
-export { DomoticzApi, DomoticzApiProviderFetch, deviceTypes, useDevices };
+export {
+  Domoticz,
+  DomoticzApiProvider,
+  DomoticzApiProviderFetch,
+  deviceTypes,
+  deviceHumidityTypes,
+  deviceHumidityGeneralTypes,
+  notificationTypes,
+  useDevices,
+  useCameras,
+  useEvents,
+  useNotifications,
+  useScenes,
+  useSystem,
+};
