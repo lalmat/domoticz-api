@@ -38,7 +38,7 @@ To see it in action, clone this repo, and go to demo/browser, then open index.ht
 ### Usage in React/Vue/xxx :
 
 ```javascript
-import { Domoticz } from "./domoticz-api/dist/bundle.js";
+import { Domoticz } from "domoticz-api-linker";
 
 const domoticz = Domoticz(YOUR_HOST, {
   useSSL: true,
@@ -69,7 +69,7 @@ By default DomoticzApi use `fetch`. If you want to use axios :
 - Pass this class in the `api` parameter in options like this:
 
 ```javascript
-import { DomoticzApiProviderAxios } from "./DomoticzApiProviderAxios";
+import { DomoticzApiProviderAxios } from "domoticz-api-linker";
 const domoticz = Domoticz(YOUR_HOST, {
   useSSL: true,
   username: YOUR_USERNAME,
