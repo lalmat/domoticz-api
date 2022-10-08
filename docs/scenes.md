@@ -1,6 +1,6 @@
 ## Scenes
 
-### **domoticz.scenes.get()**
+### **domoticz.scenes.items()**
 
 Get all Groups/Scenes in Domoticz
 

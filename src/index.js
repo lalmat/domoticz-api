@@ -1,6 +1,11 @@
 import { DomoticzApiProvider } from "./providers/DomoticzApiProvider.js";
 import { DomoticzApiProviderFetch } from "./providers/DomoticzApiProviderFetch.js";
-import { deviceTypes, useDevices } from "./domoticz/devices.js";
+import {
+  deviceTypes,
+  deviceHumidityTypes,
+  deviceHumidityGeneralTypes,
+  useDevices,
+} from "./domoticz/devices.js";
 import { useCameras } from "./domoticz/cameras.js";
 import { useEvents } from "./domoticz/events.js";
 import { useScenes } from "./domoticz/scenes.js";
@@ -29,6 +34,8 @@ export {
   DomoticzApiProvider,
   DomoticzApiProviderFetch,
   deviceTypes,
+  deviceHumidityTypes,
+  deviceHumidityGeneralTypes,
   notificationTypes,
   useDevices,
   useCameras,
