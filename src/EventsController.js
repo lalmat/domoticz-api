@@ -7,8 +7,17 @@ export default class {
   /**
    * Retrieve all Domoticz Events
    */
-  async get() {
-    let uri = "type=events&param=list";
-    return await this.api.send(uri);
+  all() {
+    return this.api.events({
+      param: 'list'
+    });
+  }
+
+  /**
+   * Only to not introduce breaking changes
+   * @deprecated
+   */
+  get() {
+    return this.all();
   }
 }

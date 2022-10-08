@@ -7,28 +7,30 @@ export default class {
   /**
    * Get all devices, including the hidden ones
    */
-  async get() {
-    let uri = "type=devices&used=true&displayhidden=1";
-    let response = await this.api.send(uri);
-    return response.result;
+  all() {
+    return this.api.devices({
+      used: true,
+      displayhidden: 1
+    });
   }
+
+  get() {
+    return this.all();
+  }
+
 
   /**
    * Get a specific device
    * @param {integer} idx
    */
-  async getByIdx(idx) {
-    let uri = `type=devices&rid=${idx}`;
-    return await this.api.send(uri);
+  getByIdx(idx) {
+    return this.api.devices({
+      rid: idx
+    });
   }
 
-  /**
-   * Retrieve devices of a specific type
-   * @param {string} filter "light|weather|temp|utility|wind|rain|uv|baro|zwavealarms|all"
-   * @param {string} orderBy
-   */
-  async getByType(filter, orderBy="Name") {
-    let allowed = [
+  types() {
+    return [
       "light",
       "weather",
       "temp",
@@ -39,21 +41,34 @@ export default class {
       "baro",
       "zwavealarms",
       "all"
-    ].indexOf(filter) !== false;
-    if (!allowed) return false;
+    ];
+  }
 
-    let uri = `type=devices&filter=${filter}&used=true&order=${orderBy}`;
-    let response = await this.api.send(uri);
-    return response.result;
+  /**
+   * Retrieve devices of a specific type
+   * @param {string} filter "light|weather|temp|utility|wind|rain|uv|baro|zwavealarms|all"
+   * @param {string} orderBy
+   */
+  async getByType(filter, orderBy="Name") {
+    const filterAllowed = (await this.types()).includes(filter);
+    if (!filterAllowed) return false;
+
+    return this.api.devices({
+      filter,
+      used: true,
+      order: orderBy
+    });
   }
 
   /**
    * Return favorites devices
    */
-  async getFavorites() {
-    let uri = "type=devices&used=true&filter=all&favorite=1";
-    let response = await this.api.send(uri);
-    return response.result;
+  getFavorites() {
+    return this.api.devices({
+      used: true,
+      filter: all,
+      favorite: 1
+    });
   }
 
   /**
@@ -61,38 +76,51 @@ export default class {
    * @param {integer} idx
    * @param {string} command "On|Off"
    */
-  async switch(idx, command="On") {
-    let uri = `type=command&param=switchlight&idx=${idx}&switchcmd=${command}`;
-    return await this.api.send(uri);
+  switch(idx, command="On") {
+    return this.api.devices({
+      param: 'switchlight',
+      idx,
+      switchcmd: (command.toLowerCase == 'on') ? 'On' : 'Off'
+    });
   }
 
   /**
    * Ask Domoticz to toggle a Light/Switch
    * @param {integer} idx
    */
-  async toggle(idx) {
-    this.switch(idx, "Toggle");
+  toggle(idx) {
+    return this.api.devices({
+      param: 'switchlight',
+      idx,
+      switchcmd: 'Toggle'
+    });
   }
 
   /**
    * Rename the device identified by idx
    * @param {int} idx
-   * @param {string} newName
+   * @param {string} name
    */
-   async rename(idx, newName) {
-    let uri = `type=command&param=renamedevice&name=${newName}&idx=${idx}`
-    let response = await this.api.send(uri);
-    return response.result;
+   rename(idx, name)
+   {
+    return this.api.devices({
+      param: 'renamedevice',
+      idx,
+      name
+    });
   }
 
   /**
    * Set/Remove the protection on a device identified by idx
    * @param {boolean} state
    */
-  async setProtection(idx, state="true") {
-    let uri = `type=setused&used=true&protected=${state?'true':'false'}&idx=${idx}`
-    let response = await this.api.send(uri);
-    return response.result;
+  setProtection(idx, state = true)
+  {
+    return this.api.setUsed({
+      used: true,
+      idx,
+      protected: state ? 'true' : 'false'
+    });
   }
 
   /**
@@ -102,9 +130,9 @@ export default class {
    * @param {int} temperature
    * @returns
    */
-  async updateTemperature(idx, temperature)
+  updateTemperature(idx, temperature)
   {
-    return await this.updateDevice(idx, temperature);
+    return this.updateDevice(idx, temperature);
   }
 
   /**
@@ -115,11 +143,11 @@ export default class {
    * @param {string} humidityState [0: Normal, 1: Confortable, 2: Dry, 3: Wet]
    * @returns
    */
-  async updateHumidity(idx, humidityPercent, humidityState)
+  updateHumidity(idx, humidityPercent, humidityState)
   {
     if (humidityPercent < 0 || humidityPercent > 100) return null;
     if (humidityState < 0 || humidityState > 5) return null;
-    return await this.updateDevice(idx, humidityState, humidityPercent);
+    return this.updateDevice(idx, humidityState, humidityPercent);
   }
 
   /**
@@ -152,11 +180,10 @@ export default class {
    *
    * @returns
    */
-  async updateBarometer(idx, barometer, barometerForecast)
+  updateBarometer(idx, barometer, barometerForecast)
   {
     if (humidityState < 0 || humidityState > 9) return null;
-    let baroData = barometer+";"+barometerForecast
-    return await this.updateDevice(idx, baroData);
+    return this.updateDevice(idx, `${barometer};${barometerForecast}`);
   }
 
   /**
@@ -167,11 +194,14 @@ export default class {
    * @param {*} nValue
    * @returns
    */
-  async updateDevice(idx, sValue, nValue = 0)
+  updateDevice(idx, svalue, nvalue = 0)
   {
-    let uri = `type=command&param=udevice&idx=${idx}&nvalue=${nValue}&svalue=${sValue}`
-    let response = await this.api.send(uri);
-    return response.result;
+    return this.api.command({
+      param: 'udevice',
+      idx,
+      svalue,
+      nvalue
+    });
   }
 
 }

@@ -8,58 +8,53 @@ export default class {
    * Write a message into Domoticz Logs
    * @param {string} message
    */
-  async log(message) {
-    message = "----------- DOMOTICZ API -----------> " + message;
-    let uri = `type=command&param=addlogmessage&message=${encodeURI(message)}`;
-    return await this.api.send(uri);
+  log(message) {
+    return this.api.command({
+      param   : 'addlogmessage',
+      message : `############# DOMOTICZ API ############# => ${message}`
+    });
   }
 
   /**
    * Get various informations about the Domoticz Server
    */
-  async version() {
-    let uri = "type=command&param=getversion";
-    return await this.api.send(uri);
+  version() {
+    return this.api.command({ param   : 'getversion' })
   }
 
   /**
    * Get times (Local time, Sunset, Sunrise, etc.) from Domoticz Server
    */
-  async datetimes() {
-    let uri = "type=command&param=getSunRiseSet";
-    return await this.api.send(uri);
+  datetimes() {
+    return this.api.command({ param: 'getSunRiseSet' })
   }
 
 
   /**
    * Reboot Domoticz Server
    */
-  async reboot() {
-    let uri = "type=command&param=system_reboot";
-    return await this.api.send(uri);
+  reboot() {
+    return this.api.command({ param: 'system_reboot' })
   }
 
   /**
    * Shutdown the Domoticz Server
    */
-  async shutdown() {
-    let uri = "type=command&param=system_reboot";
-    return await this.api.send(uri);
+  shutdown() {
+    return this.api.command({ param: 'system_shutdown' })
   }
 
   /**
    * Start Database backup
    */
-  async db_backup() {
-    let uri = "backupdatabase.php";
-    return await this.api.url(uri);
+  db_backup() {
+    return this.api.get("backupdatabase.php");
   }
 
   /**
    * Execute database cleanup
    */
-  async db_vaccum() {
-    let uri = "type=command&param=vacuumdatabase";
-    return await this.api.send(uri);
+  db_vaccum() {
+    return this.api.command({param : vaccumdatabase});
   }
 }
