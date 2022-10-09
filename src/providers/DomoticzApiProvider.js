@@ -7,16 +7,21 @@ class DomoticzApiProvider {
     this.password = password;
     this.useSSL = useSSL;
     this.port = port;
-    this.endpoint = this.url("json.htm?_connector=domoticz-api");
+    this.endpoint = this.url("json.htm");
   }
 
   url(uri) {
     const proto = `http${this.useSSL ? "s" : ""}://`;
     const host = this.hostname;
-    const port = this.port ? this.port : this.useSSL ? 443 : 80;
-    const credentials = `&username=${b64encode(
-      this.username
-    )}&password=${b64encode(this.password)}`;
+    const port = this?.port ? this.port : this?.useSSL ? 443 : 80;
+
+    const credentials =
+      this?.username && this?.password
+        ? `?username=${b64encode(this.username)}&password=${b64encode(
+            this.password
+          )}`
+        : "?username=&password=";
+
     return `${proto}${host}:${port}/${uri}${credentials}`;
   }
 
@@ -42,10 +47,13 @@ class DomoticzApiProvider {
   setUsed(data) {
     return this.domoticz({ type: "setUsed", ...data });
   }
+  checkCredentials() {
+    return this.__generic("GET", `${this.url("json.htm")}&api-call`);
+  }
 
   // TOOLING
   get(uri) {
-    return this.__generic("GET", this.url(uri));
+    return this.__generic("GET", this.url(`${uri}`));
   }
   domoticz(data) {
     return this.__generic("GET", this.endpoint, data);

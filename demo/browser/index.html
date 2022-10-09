@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Domoticz Demo</title>
     <link rel="stylesheet" href="./style.css" />
-    <script src="../../dist/bundle.mjs"></script>
+    <script src="../../dist/bundle.js"></script>
     <script>
       var domoticz = null;
       var hostname = null;
@@ -18,6 +18,10 @@
         switch (command) {
           case "version":
             log(domoticz.systemManager.version());
+            break;
+
+          case "auth":
+            log(domoticz.systemManager.checkCredentials());
             break;
 
           case "log":
@@ -171,6 +175,7 @@
         the results.
       </div>
       <div class="form-subsection-wrap">
+        <button type="button" onclick="test('auth')">Test Auth</button>
         <button type="button" onclick="test('version')">Test Version</button>
         <button type="button" onclick="test('log')">Test Log</button>
         <button type="button" onclick="test('times')">Test GetTimes</button>
