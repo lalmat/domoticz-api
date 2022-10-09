@@ -38,7 +38,7 @@ To see it in action, clone this repo, and go to demo/browser, then open index.ht
 ### Usage in React/Vue/xxx :
 
 ```javascript
-import { Domoticz } from "domoticz-api-linker";
+import { Domoticz } from "domoticz-api-linker/src/index.js";
 
 const domoticz = Domoticz(YOUR_HOST, {
   useSSL: true,
