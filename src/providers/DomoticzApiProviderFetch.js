@@ -2,9 +2,11 @@ import { DomoticzApiProvider } from "./DomoticzApiProvider.js";
 
 class DomoticzApiProviderFetch extends DomoticzApiProvider {
   async __generic(method, endpoint, data, content = null) {
-    const uriParams = Object.entries(data).reduce((uri, [key, value]) => {
-      return `${uri}&${encodeURI(key)}=${encodeURI(value)}`;
-    }, "");
+    const uriParams = data
+      ? Object.entries(data).reduce((uri, [key, value]) => {
+          return `${uri}&${encodeURI(key)}=${encodeURI(value)}`;
+        }, "")
+      : "";
 
     const options = {
       method,
@@ -14,8 +16,8 @@ class DomoticzApiProviderFetch extends DomoticzApiProvider {
       },
       body: content ? JSON.stringify(content) : null,
     };
-
-    const result = await fetch(`${endpoint}${uriParams}`, options);
+    const url = `${endpoint}${uriParams}`;
+    const result = await fetch(url, options);
     return await result.json();
   }
 }

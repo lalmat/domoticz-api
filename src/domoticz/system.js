@@ -12,6 +12,27 @@ function useSystem(domoticzApi) {
     },
 
     /**
+     * Check Security Status
+     * @param {string} message
+     */
+    async checkCredentials() {
+      try {
+        await domoticzApi.checkCredentials();
+        return true;
+      } catch (e) {
+        return false;
+      }
+    },
+
+    /**
+     * Check Security Status
+     * @param {string} message
+     */
+    securityStatus() {
+      return domoticzApi.command({ param: "getsecstatus" });
+    },
+
+    /**
      * Get various informations about the Domoticz Server
      */
     version() {
