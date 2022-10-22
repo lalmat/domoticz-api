@@ -1,0 +1,15 @@
+export interface SunsetSunrise {
+  'AstrTwilightEnd': '21:02'
+  'AstrTwilightStart': '06:35'
+  'CivTwilightEnd': '19:49'
+  'CivTwilightStart': '07:48'
+  'DayLength': '10:57'
+  'NautTwilightEnd': '20:26'
+  'NautTwilightStart': '07:11'
+  'ServerTime': '2022-10-13 21:50:31'
+  'SunAtSouth': '13:49'
+  'Sunrise': '08:20'
+  'Sunset': '19:17'
+  'status': 'OK'
+  'title': 'getSunRiseSet'
+}

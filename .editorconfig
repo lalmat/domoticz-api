@@ -11,7 +11,7 @@ charset = utf-8
 trim_trailing_whitespace = true
 indent_style = space
 
-[*.js]
+[*.{ts,js}]
 indent_size = 2
 
 [*.{html,css,json}]

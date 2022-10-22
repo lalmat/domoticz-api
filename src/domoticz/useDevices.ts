@@ -1,66 +1,30 @@
-const deviceTypes = {
-  LIGHT: "light",
-  WEATHER: "wheather",
-  TEMP: "temp",
-  UTILITY: "utility",
-  WIND: "wind",
-  RAIN: "rain",
-  UV: "uv",
-  BARO: "baro",
-  ZWAVEALARM: "zwavealarm",
-  ALL: "all",
-};
-
-const deviceHumidityGeneralTypes = {
-  STABLE: 0,
-  SUNNY: 1,
-  CLOUDY: 2,
-  UNSABLE: 3,
-  THUNDERSTORM: 4,
-  UNKNOWN: 5,
-  CLOUDY_RAIN: 6,
-};
-
-const deviceHumidityTypes = {
-  HEAVY_SNOW: 0,
-  SNOW: 1,
-  HEAVY_RAIN: 2,
-  RAIN: 3,
-  CLOUDY: 4,
-  SOME_CLOUDS: 5,
-  SUNNY: 6,
-  UNKNOWN: 7,
-  UNSTABLE: 8,
-  STABLE: 9,
-};
-
-function isType(Types, type) {
+function isType (Types, type) {
   const result =
-    Object.values(Types).find((value) => value == type) != undefined;
-  if (!result) console.log("DeviceType not found", type);
-  return result;
+    Object.values(Types).find((value) => value == type) != undefined
+  if (!result) console.log('DeviceType not found', type)
+  return result
 }
 
-function useDevices(domoticzApi) {
+function useDevices (domoticzApi) {
   return {
     /**
      * Get all devices, including the hidden ones
      */
-    items() {
+    items () {
       return domoticzApi.devices({
-        used: true,
-        displayhidden: 1,
-      });
+        used          : true,
+        displayhidden : 1
+      })
     },
 
     /**
      * Get a specific device
      * @param {integer} idx
      */
-    getByIdx(idx) {
+    getByIdx (idx) {
       return domoticzApi.devices({
-        rid: idx,
-      });
+        rid : idx
+      })
     },
 
     /**
@@ -68,24 +32,24 @@ function useDevices(domoticzApi) {
      * @param {deviceType} filter
      * @param {string} orderBy
      */
-    getByType(filter, orderBy = "Name") {
-      if (!isType(deviceTypes, filter)) return false;
+    getByType (filter, orderBy = 'Name') {
+      if (!isType(deviceTypes, filter)) return false
       return domoticzApi.devices({
         filter,
-        used: true,
-        order: orderBy,
-      });
+        used  : true,
+        order : orderBy
+      })
     },
 
     /**
      * Return favorites devices
      */
-    getFavorites() {
+    getFavorites () {
       return domoticzApi.devices({
-        used: true,
-        filter: "all",
-        favorite: 1,
-      });
+        used     : true,
+        filter   : 'all',
+        favorite : 1
+      })
     },
 
     /**
@@ -93,24 +57,24 @@ function useDevices(domoticzApi) {
      * @param {integer} idx
      * @param {string} command "On|Off"
      */
-    switch(idx, command = "On") {
+    switch (idx, command = 'On') {
       return domoticzApi.command({
-        param: "switchlight",
+        param     : 'switchlight',
         idx,
-        switchcmd: command.toLowerCase() === "on" ? "On" : "Off",
-      });
+        switchcmd : command.toLowerCase() === 'on' ? 'On' : 'Off'
+      })
     },
 
     /**
      * Ask Domoticz to toggle a Light/Switch
      * @param {integer} idx
      */
-    toggle(idx) {
+    toggle (idx) {
       return domoticzApi.command({
-        param: "switchlight",
+        param     : 'switchlight',
         idx,
-        switchcmd: "Toggle",
-      });
+        switchcmd : 'Toggle'
+      })
     },
 
     /**
@@ -118,24 +82,24 @@ function useDevices(domoticzApi) {
      * @param {int} idx
      * @param {string} name
      */
-    rename(idx, name) {
+    rename (idx, name) {
       return domoticzApi.command({
-        param: "renamedevice",
+        param : 'renamedevice',
         idx,
-        name,
-      });
+        name
+      })
     },
 
     /**
      * Set/Remove the protection on a device identified by idx
      * @param {boolean} state
      */
-    protect(idx, state = true) {
+    protect (idx, state = true) {
       return domoticzApi.setUsed({
-        used: true,
+        used      : true,
         idx,
-        protected: state ? "true" : "false",
-      });
+        protected : state ? 'true' : 'false'
+      })
     },
 
     /**
@@ -145,8 +109,8 @@ function useDevices(domoticzApi) {
      * @param {int} temperature
      * @returns
      */
-    updateTemperature(idx, temperature) {
-      return this.updateDevice(idx, temperature);
+    updateTemperature (idx, temperature) {
+      return this.updateDevice(idx, temperature)
     },
 
     /**
@@ -157,10 +121,10 @@ function useDevices(domoticzApi) {
      * @param {string} humidityState [0: Normal, 1: Confortable, 2: Dry, 3: Wet]
      * @returns
      */
-    updateHumidity(idx, humidityPercent, humidityState) {
-      if (humidityPercent < 0 || humidityPercent > 100) return null;
-      if (humidityState < 0 || humidityState > 5) return null;
-      return this.updateDevice(idx, humidityState, humidityPercent);
+    updateHumidity (idx, humidityPercent, humidityState) {
+      if (humidityPercent < 0 || humidityPercent > 100) return null
+      if (humidityState < 0 || humidityState > 5) return null
+      return this.updateDevice(idx, humidityState, humidityPercent)
     },
 
     /**
@@ -172,8 +136,8 @@ function useDevices(domoticzApi) {
      *
      * @returns
      */
-    async updateBarometer(idx, barometer, deviceHumidityType) {
-      return this.updateDevice(idx, `${barometer};${deviceHumidityType}`);
+    async updateBarometer (idx, barometer, deviceHumidityType) {
+      return this.updateDevice(idx, `${barometer};${deviceHumidityType}`)
     },
 
     /**
@@ -184,20 +148,20 @@ function useDevices(domoticzApi) {
      * @param {*} nValue
      * @returns
      */
-    updateDevice(idx, svalue, nvalue = 0) {
+    updateDevice (idx, svalue, nvalue = 0) {
       return domoticzApi.command({
-        param: "udevice",
+        param : 'udevice',
         idx,
         svalue,
-        nvalue,
-      });
-    },
-  };
+        nvalue
+      })
+    }
+  }
 }
 
 export {
   deviceTypes,
   deviceHumidityGeneralTypes,
   deviceHumidityTypes,
-  useDevices,
-};
+  useDevices
+}
