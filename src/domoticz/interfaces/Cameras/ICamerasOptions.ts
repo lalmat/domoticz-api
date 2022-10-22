@@ -1,3 +1,3 @@
-export interface ICameraOptions {
+export interface ICamerasOptions {
   type: 'cameras'
 }

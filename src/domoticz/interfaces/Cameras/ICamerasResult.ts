@@ -1,6 +1,6 @@
 import { ICameraRecord } from './ICameraRecord'
 
-export interface CameraResult {
+export interface ICamerasResult {
   result: ICameraRecord[]
   status: String
   title: 'Cameras'

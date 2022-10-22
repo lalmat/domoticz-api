@@ -1,22 +1,11 @@
-import {
-  DEVICE_WEATHER,
-  DEVICE_TEMP,
-  DEVICE_UTILITY,
-  DEVICE_ALL,
-  DEVICE_BARO,
-  DEVICE_LIGHT,
-  DEVICE_WIND,
-  DEVICE_UV,
-  DEVICE_RAIN,
-  DEVICE_ZWAVEALARM
-} from './IDeviceTypes'
+import { DEVICE_TYPE } from '../Types/IDeviceTypes'
 
-export interface IDeviceOptions {
-  type: 'devices'
-  rid: String
-  filter: DEVICE_LIGHT | DEVICE_WEATHER | DEVICE_TEMP | DEVICE_UTILITY | DEVICE_WIND | DEVICE_RAIN | DEVICE_UV | DEVICE_BARO | DEVICE_ZWAVEALARM | DEVICE_ALL
-  used: Boolean
-  order: String
-  displayhidden: Number
-  favorite: Number
+export interface IDevicesOptions {
+  // type: String
+  rid?: Number
+  filter?: DEVICE_TYPE
+  used?: Boolean
+  order?: String
+  displayhidden?: Number
+  favorite?: Number
 }

@@ -1,4 +1,10 @@
-import { CameraResult } from './../domoticz/Cameras/DomoticzCamera'
+import { ISceneResult } from './../domoticz/interfaces/Scenes/IScenesResult'
+import { IEventsOptions } from './../domoticz/interfaces/Events/IEventsOptions'
+import { IDevicesResult } from './../domoticz/interfaces/Devices/IDevicesResult'
+import { IDevicesOptions } from './../domoticz/interfaces/Devices/IDevicesOptions'
+import { ICamerasResult } from './../domoticz/interfaces/Cameras/ICamerasResult'
+import { ICommandOptions } from '../domoticz/interfaces/Command/ICommandOptions'
+
 import { b64encode } from './Base64.js'
 
 interface DomoticzApiProviderConfig {
@@ -40,36 +46,36 @@ class DomoticzApiProvider {
   }
 
   // DOMOTICZ NATIVE CALLS
-  async cameras (): Promise<CameraResult> {
-    return await this.domoticz({ type: 'cameras' }) as CameraResult
+  async cameras (): Promise<ICamerasResult> {
+    return await this.domoticz({ type: 'cameras' }) as ICamerasResult
   }
 
-  async command (data) {
+  async command (data: ICommandOptions): Promise<Object> {
     return await this.domoticz({ type: 'command', ...data })
   }
 
-  async devices (options) {
-    return await this.domoticz({ type: 'devices', ...options })
+  async devices (data: IDevicesOptions): Promise<IDevicesResult> {
+    return await this.domoticz({ type: 'devices', ...data }) as IDevicesResult
   }
 
-  async events (data) {
+  async events (data: IEventsOptions): Promise<Object> {
     return await this.domoticz({ type: 'events', ...data })
   }
 
-  async notifications (data) {
+  async notifications (data: Object): Promise<Object> {
     return await this.domoticz({ type: 'notifications', ...data })
   }
 
-  async scenes (data) {
-    return await this.domoticz({ type: 'scenes', ...data })
+  async scenes (): Promise<ISceneResult> {
+    return await this.domoticz({ type: 'scenes' }) as ISceneResult
   }
 
-  async setUsed (data) {
+  async setUsed (data: Object): Promise<Object> {
     return await this.domoticz({ type: 'setUsed', ...data })
   }
 
-  async checkCredentials () {
-    return await this.__generic('GET', `${this.url('json.htm')}&api-call`)
+  async checkCredentials (): Promise<Object> {
+    return await this.__generic('GET', `${this.url('json.htm')}?api-call`)
   }
 
   // TOOLING

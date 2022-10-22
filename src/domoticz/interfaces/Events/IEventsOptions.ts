@@ -1,6 +1,6 @@
 export interface IEventsOptions {
-  type: 'events'
-  params: 'list' | 'updatestatus'
-  eventid: Number
-  eventstatus: Number
+  // type: String
+  param: 'list' | 'updatestatus'
+  eventid?: Number
+  eventstatus?: Number
 }
