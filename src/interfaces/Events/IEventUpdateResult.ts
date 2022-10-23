@@ -1,4 +1,4 @@
 export interface IEventUpdateResult {
-  status: 'OK' | 'ERR'
+  status: string
   title: 'Events'
 }

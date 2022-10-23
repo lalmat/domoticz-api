@@ -1,3 +1,3 @@
-export interface IGetVersionOptions {
+export interface ISettingsOptions {
   type: 'settings'
 }

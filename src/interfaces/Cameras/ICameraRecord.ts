@@ -1,11 +1,11 @@
 export interface ICameraRecord {
-  Address: String
-  Enabled: Boolean
-  ImageURL: String
-  Name: String
-  Password: String
-  Port: Number
-  Protocol: Number
-  Username: String
-  idx: Number
+  Address: string
+  Enabled: boolean
+  ImageURL: string
+  Name: string
+  Password: string
+  Port: number
+  Protocol: number
+  Username: string
+  idx: number
 }

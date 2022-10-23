@@ -2,6 +2,6 @@ import { IDeviceListRecord } from './IDeviceListRecord'
 
 export interface IDeviceListResult {
   result: IDeviceListRecord[]
-  status: String
+  status: string
   title: 'GetDevicesList'
 }

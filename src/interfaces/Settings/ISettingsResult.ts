@@ -3,7 +3,7 @@ export interface IPosition {
   Longitude: Number
 }
 
-export interface ISettingResult {
+export interface ISettingsResult {
   AcceptNewHardware: Number
   ActiveTimerPlan: Number
   AllowWidgetOrdering: Number

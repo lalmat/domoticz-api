@@ -1,5 +1,6 @@
 export interface IGenericResult {
-  message: String
-  status: String
-  title: String
+  message?: string
+  result?: any[]
+  status: string
+  title: string
 }

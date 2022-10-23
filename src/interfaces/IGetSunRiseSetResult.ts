@@ -1,4 +1,4 @@
-export interface IGetSunRiseSet {
+export interface IGetSunRiseSetResult {
   ServerTime: String
   Sunrise: String
   Sunset: String

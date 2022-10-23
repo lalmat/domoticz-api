@@ -1,3 +1,4 @@
+import { IGenericResult } from './../interfaces/IGenericResult'
 import { ISceneResult } from '../interfaces/Scenes/IScenesResult'
 import { IEventsOptions } from '../interfaces/Events/IEventsOptions'
 import { IDevicesResult } from '../interfaces/Devices/IDevicesResult'
@@ -50,8 +51,12 @@ class DomoticzApiProvider {
     return await this.domoticz({ type: 'cameras' }) as ICamerasResult
   }
 
-  async command (data: ICommandOptions): Promise<Object> {
+  async command (data: ICommandOptions): Promise<any> {
     return await this.domoticz({ type: 'command', ...data })
+  }
+
+  async hardware (): Promise<any> {
+    return await this.domoticz({ type: 'hardware' })
   }
 
   async devices (data: IDevicesOptions): Promise<IDevicesResult> {
@@ -70,26 +75,27 @@ class DomoticzApiProvider {
     return await this.domoticz({ type: 'scenes' }) as ISceneResult
   }
 
-  async setUsed (data: Object): Promise<Object> {
+  async setUsed (data: Object): Promise<IGenericResult> {
     return await this.domoticz({ type: 'setUsed', ...data })
   }
 
-  async checkCredentials (): Promise<Object> {
+  async checkCredentials (): Promise<IGenericResult> {
     return await this.__generic('GET', `${this.url('json.htm')}?api-call`)
   }
 
   // TOOLING
-  async get (uri: string): Promise<Object> {
+  async get (uri: string): Promise<any> {
     return await this.__generic('GET', this.url(`${uri}`))
   }
 
-  async domoticz (data: Object): Promise<Object> {
+  async domoticz (data: Object): Promise<any> {
     return await this.__generic('GET', this.endpoint.toString(), data)
   }
 
   // Want to write an new HTTP manager (other than fetch) just create a new
   // DomoticzApiProvider[foobar].js and implement only this method.
-  async __generic (method: string, endpoint: string, data?: Object, content?: string): Promise<Object> {
+  // @ts-expect-error
+  async __generic (method: string, endpoint: string, data?: Object, content?: string): Promise<any> {
     return await new Promise(() => null)
   }
 }

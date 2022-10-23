@@ -1,4 +1,4 @@
 export interface IDeviceListRecord {
-  name: String
-  value: String
+  name: string
+  value: string
 }

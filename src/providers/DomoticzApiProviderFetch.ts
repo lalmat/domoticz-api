@@ -1,7 +1,7 @@
 import { DomoticzApiProvider } from './DomoticzApiProvider'
 
 class DomoticzApiProviderFetch extends DomoticzApiProvider {
-  async __generic (method: string, endpoint: string, data?: Object, content?: string): Promise<Object> {
+  async __generic (method: string, endpoint: string, data?: Object, content?: string): Promise<any> {
     const uriParams = (data !== undefined) ? dataToURI(data) : ''
     const options = {
       method,

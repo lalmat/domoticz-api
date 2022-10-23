@@ -1,5 +1,5 @@
 export interface IEventsListRecord {
-  eventstatus: Number
-  id: Number
-  name: String
+  eventstatus: number
+  id: number
+  name: string
 }

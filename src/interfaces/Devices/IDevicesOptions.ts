@@ -2,10 +2,10 @@ import { DOMOTICZ_DEVICE } from '../../enums/Domoticz'
 
 export interface IDevicesOptions {
   // type: String
-  rid?: Number
+  rid?: number
   filter?: DOMOTICZ_DEVICE
-  used?: Boolean
-  order?: String
-  displayhidden?: Number
-  favorite?: Number
+  used?: boolean
+  order?: string
+  displayhidden?: number
+  favorite?: number
 }

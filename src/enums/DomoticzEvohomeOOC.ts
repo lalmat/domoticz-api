@@ -1,0 +1,4 @@
+export enum DOMOTICZ_EVOHOME_OOC {
+  ON_CHANGE = 1,
+  ALWAYS = 0
+}

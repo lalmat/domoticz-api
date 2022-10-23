@@ -1,7 +1,7 @@
 import { IEventsListRecord } from './IEventsListRecord'
 export interface IEventsListResult {
-  interpreters: String
+  interpreters: string
   result: IEventsListRecord[]
-  status: 'OK' | 'ERR'
+  status: string
   title: 'ListEvents'
 }
