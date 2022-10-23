@@ -89,7 +89,6 @@ class DomoticzApiProvider {
 
   // Want to write an new HTTP manager (other than fetch) just create a new
   // DomoticzApiProvider[foobar].js and implement only this method.
-  // @ts-expect-error:
   async __generic (method: string, endpoint: string, data?: Object, content?: string): Promise<Object> {
     return await new Promise(() => null)
   }

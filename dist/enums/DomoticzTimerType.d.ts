@@ -1,8 +1,0 @@
-export declare enum DOMOTICZ_TIMER_TYPE {
-    BEFORE_SUNRISE = 0,
-    AFTER_SUNRISE = 1,
-    ON_TIME = 2,
-    BEFORE_SUNSET = 3,
-    AFTER_SUNSET = 4,
-    FIXED_DATETIME = 5
-}
