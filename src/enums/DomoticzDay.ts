@@ -1,0 +1,12 @@
+export enum DOMOTICZ_DAY {
+  EVERYDAY = 0x80,
+  WEEKDAYS = 0x100,
+  WEEKENDS = 0x200,
+  MONDAY = 0x01,
+  TUESDAY = 0x02,
+  WEDNESDAY = 0x04,
+  THURSDAY = 0x08,
+  FRIDAY = 0x10,
+  SATURDAY = 0x20,
+  SUNDAY = 0x40,
+}

@@ -1,0 +1,19 @@
+export declare enum DOMOTICZ_DEVICE_HUMIDITY {
+    HEAVY_SNOW = 0,
+    SNOW = 1,
+    HEAVY_RAIN = 2,
+    RAIN = 3,
+    CLOUDY = 4,
+    SOME_CLOUDS = 5,
+    SUNNY = 6,
+    UNKNOWN = 7,
+    UNSTABLE = 8,
+    STABLE = 9,
+    GENERAL_STABLE = 0,
+    GENERAL_SUNNY = 1,
+    GENERAL_CLOUDY = 2,
+    GENERAL_UNSABLE = 3,
+    GENERAL_THUNDERSTORM = 4,
+    GENERAL_UNKNOWN = 5,
+    GENERAL_CLOUDY_RAIN = 6
+}

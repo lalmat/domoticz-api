@@ -1,11 +1,7 @@
 {
-  "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "eslint.probe": [
-      "javascript"
-  ],
-  "editor.codeActionsOnSave": [
-    "source.formatDocument",
-    "source.fixAll.eslint"
-  ]
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "eslint.validate": ["javascript", "typescript"]
 }
