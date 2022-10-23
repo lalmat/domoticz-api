@@ -23,12 +23,14 @@ npm install domoticz-api-linker
 Place this into your HTML head section :
 
 ```html
-<script src="path_to/domoticz-api/dist/bundle.js"></script>
+<script src="path_to/domoticz-api/dist/domoticz-api.iife.js"></script>
 <script>
-  const domoticz = DomoticzApi.Domoticz(YOUR_HOST, {
-    useSSL: true,
+  const domoticz = DomoticzApi.useDomoticz({
+    hostname: YOUR_HOST,
+    port: YOUR_PORT,
     username: YOUR_USERNAME,
     password: YOUR_PASSWORD,
+    useSSL: true
   });
 </script>
 ```
@@ -38,14 +40,17 @@ To see it in action, clone this repo, and go to demo/browser, then open index.ht
 ### Usage in React/Vue/xxx :
 
 ```javascript
-import { Domoticz } from "domoticz-api-linker/src/index.js";
+import { Domoticz } from "domoticz-api-linker/src/index.esm.js";
 
-const domoticz = Domoticz(YOUR_HOST, {
-  useSSL: true,
+const domoticz = useDomoticz({
+  hostname: YOUR_HOST,
+  port: YOUR_PORT,
   username: YOUR_USERNAME,
   password: YOUR_PASSWORD,
+  useSSL: true
 });
 ```
+> You can use `index.cjs.js` if you're using CommonJS.
 
 ### Usage
 
@@ -54,10 +59,12 @@ const domoticz = Domoticz(YOUR_HOST, {
 const items = await domoticz.devicesManager.items();
 
 // Get all lights :
-const lights = await domoticz.getByType(domoticz.deviceTypes.LIGHT);
+import { DOMOTICZ_DEVICE } from "domoticz-api-linker/src/index.esm.js";
+const lights = await domoticz.getByType(DOMOTICZ_DEVICE.LIGHT);
 
 // Switch on the first light :
-domoticz.switch(lights.results[0].idx, "On");
+import { DOMOTICZ_SWITCHCMD } from "domoticz-api-linker/src/index.esm.js";
+domoticz.switch(lights.results[0].idx, DOMOTICZ_SWITCHCMD.ON);
 ```
 
 ### Using another HTTP layer
@@ -80,11 +87,7 @@ const domoticz = Domoticz(YOUR_HOST, {
 
 ### Imports
 
-All things can be imported at wish :
-
-```javascript
-import { deviceTypes } from "domoticz-api-linker";
-```
+All things can be imported :
 
 | Import                     | Description                                                         |
 | -------------------------- | ------------------------------------------------------------------- |
@@ -106,6 +109,7 @@ import { deviceTypes } from "domoticz-api-linker";
 ## 🎯 Todos:
 
 - [x] Refactoring API
+- [x] Full rewrite in TypeScript
 - [ ] Adding management functions (WIP)
 - [ ] Digging into Domoticz Source Code to implement undocumented functions
 
