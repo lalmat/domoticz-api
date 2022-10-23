@@ -1,48 +1,48 @@
-import { ISceneResult } from './../domoticz/interfaces/Scenes/IScenesResult'
-import { IEventsOptions } from './../domoticz/interfaces/Events/IEventsOptions'
-import { IDevicesResult } from './../domoticz/interfaces/Devices/IDevicesResult'
-import { IDevicesOptions } from './../domoticz/interfaces/Devices/IDevicesOptions'
-import { ICamerasResult } from './../domoticz/interfaces/Cameras/ICamerasResult'
-import { ICommandOptions } from '../domoticz/interfaces/Command/ICommandOptions'
+import { ISceneResult } from '../interfaces/Scenes/IScenesResult'
+import { IEventsOptions } from '../interfaces/Events/IEventsOptions'
+import { IDevicesResult } from '../interfaces/Devices/IDevicesResult'
+import { IDevicesOptions } from '../interfaces/Devices/IDevicesOptions'
+import { ICamerasResult } from '../interfaces/Cameras/ICamerasResult'
+import { ICommandOptions } from '../interfaces/Command/ICommandOptions'
 
-import { b64encode } from './Base64.js'
+import { b64encode } from '../libs/Base64.js'
 
-interface DomoticzApiProviderConfig {
+interface DomoticzOptions {
+  DomoticzApi?: typeof DomoticzApiProvider
   hostname: string
-  username: string
-  password: string
-  useSSL: boolean
-  port: number
+  port?: number
+  username?: string
+  password?: string
+  useSSL?: boolean
 }
 
 class DomoticzApiProvider {
   hostname: string = ''
   username: string = ''
   password: string = ''
-  useSSL: boolean
-  port: number
-  endpoint: string = ''
+  useSSL: Boolean
+  port: Number
+  endpoint: String = ''
 
-  constructor ({ hostname, username, password, useSSL, port }: DomoticzApiProviderConfig) {
-    this.hostname = hostname
-    this.username = username
-    this.password = password
-    this.useSSL = useSSL
-    this.port = port
+  constructor (options: DomoticzOptions) {
+    this.hostname = options.hostname
+    this.username = (options.username != null) ? options.username : ''
+    this.password = (options.password != null) ? options.password : ''
+    this.useSSL = (options.useSSL != null) ? options.useSSL : false
+    this.port = (options.port != null) ? options.port : 80
     this.endpoint = this.url('json.htm')
   }
 
   url (uri: string): string {
-    const proto = `http${this.useSSL ? 's' : ''}://`
+    const proto = `http${this.useSSL === true ? 's' : ''}://`
     const host = this.hostname
-    const port = (this.port > 0) ? this.port : (this.useSSL ? 443 : 80)
+    const port = (this.port > 0) ? this.port : (this.useSSL === true ? 443 : 80)
 
-    const credentials =
-      this.username !== '' && this.password !== ''
-        ? `?username=${b64encode(this.username)}&password=${b64encode(this.password)}`
-        : '?username=&password='
+    const username = this.username !== undefined ? b64encode(this.username) : ''
+    const password = this.password !== undefined ? b64encode(this.password) : ''
 
-    return `${proto}${host}:${port}/${uri}${credentials}`
+    const credentials = `?username=${username.toString()}&password=${password.toString()}`
+    return `${proto}${host}:${port.toString()}/${uri}${credentials}`
   }
 
   // DOMOTICZ NATIVE CALLS
@@ -84,14 +84,18 @@ class DomoticzApiProvider {
   }
 
   async domoticz (data: Object): Promise<Object> {
-    return await this.__generic('GET', this.endpoint, data)
+    return await this.__generic('GET', this.endpoint.toString(), data)
   }
 
   // Want to write an new HTTP manager (other than fetch) just create a new
   // DomoticzApiProvider[foobar].js and implement only this method.
+  // @ts-expect-error:
   async __generic (method: string, endpoint: string, data?: Object, content?: string): Promise<Object> {
     return await new Promise(() => null)
   }
 }
 
-export { DomoticzApiProvider }
+export {
+  DomoticzOptions,
+  DomoticzApiProvider
+}

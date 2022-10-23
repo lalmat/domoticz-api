@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Domoticz Demo</title>
     <link rel="stylesheet" href="./style.css" />
-    <script src="../../dist/bundle.js"></script>
+    <script src="../../dist/domoticz-api.iife.js"></script>
     <script>
       var domoticz = null;
       var hostname = null;
@@ -38,7 +38,7 @@
 
           case "getLights":
             log(
-              domoticz.deviceManager.getByType(DomoticzApi.deviceTypes.LIGHT)
+              domoticz.deviceManager.getByType(DomoticzApi.DOMOTICZ_DEVICE.LIGHT)
             );
             break;
 
@@ -72,40 +72,32 @@
 
       // Demo Tools Functions ---------------------------------------------------------------
       function backup() {
-        hostname = $("#dzOpt_host").value;
         options = {
-          useSSL: $("#dzOpt_ssl").checked ? true : false,
-          port: $("#dzOpt_port").value > 0 ? $("#dzOpt_port").value : null,
-          username: $("#dzOpt_username").value
-            ? $("#dzOpt_username").value
-            : null,
-          password: $("#dzOpt_password").value
-            ? $("#dzOpt_password").value
-            : null,
+          hostname : $("#dzOpt_host").value,
+          useSSL   : $("#dzOpt_ssl").checked ? true : false,
+          port     : $("#dzOpt_port")?.value,
+          username : $("#dzOpt_username")?.value,
+          password : $("#dzOpt_password")?.value,
         };
 
-        localStorage.setItem("hostname", hostname);
-
-        // removing password from localStorage (security issue)
+        // removing password from localStorage to limit security issues.
         let backup = { ...options };
         backup.password = "";
         localStorage.setItem("options", JSON.stringify(backup));
-
-        domoticz = DomoticzApi.Domoticz(hostname, options);
+        domoticz = DomoticzApi.useDomoticz(options);
       }
 
       function restore() {
-        hostname = localStorage.getItem("hostname");
-        options = JSON.parse(localStorage.getItem("options"));
+        const options = JSON.parse(localStorage.getItem("options"));
 
-        if (hostname) {
-          $("#dzOpt_host").value = hostname;
+        if (options.hostname) {
+          $("#dzOpt_host").value = options.hostname;
           $("#dzOpt_ssl").checked = options.useSSL;
           $("#dzOpt_port").value = options.port;
           $("#dzOpt_username").value = options.username;
           $("#dzOpt_password").value = options.password;
 
-          domoticz = DomoticzApi.Domoticz(hostname, options);
+          domoticz = DomoticzApi.Domoticz(options);
         }
       }
 

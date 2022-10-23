@@ -1,4 +1,4 @@
-import { DomoticzApiProvider } from './DomoticzApiProvider.js'
+import { DomoticzApiProvider } from './DomoticzApiProvider'
 
 class DomoticzApiProviderFetch extends DomoticzApiProvider {
   async __generic (method: string, endpoint: string, data?: Object, content?: string): Promise<Object> {
