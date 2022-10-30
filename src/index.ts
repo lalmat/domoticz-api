@@ -1,8 +1,8 @@
-import { IDomoticzApi } from './interfaces/IDomoticzApi'
+import { IDomoticzApi } from './IDomoticzApi'
 
-import { DomoticzApiProvider } from './providers/DomoticzApiProvider'
-import type { DomoticzOptions } from './providers/DomoticzApiProvider'
-import { DomoticzApiProviderFetch } from './providers/DomoticzApiProviderFetch'
+import { DomoticzApiConnector } from './connectors/DomoticzApiConnector'
+import type { DomoticzApiOptions } from './connectors/DomoticzApiConnector'
+import { DomoticzApiFetch } from './connectors/DomoticzApiFetch'
 
 import { DeviceManager } from './domoticz/DeviceManager'
 import { CameraManager } from './domoticz/CameraManager'
@@ -11,10 +11,10 @@ import { SceneManager } from './domoticz/SceneManager'
 import { NotificationManager } from './domoticz/NotificationManager'
 import { SystemManager } from './domoticz/SystemManager'
 
-function useDomoticzApi (options: DomoticzOptions): IDomoticzApi {
-  const domoticzApi = (options.DomoticzApi != null)
-    ? new options.DomoticzApi(options)
-    : new DomoticzApiProviderFetch(options)
+function useDomoticzApi (options: DomoticzApiOptions): IDomoticzApi {
+  const domoticzApi = (options.DomoticzApi === undefined)
+    ? new DomoticzApiFetch(options)
+    : new options.DomoticzApi(options)
 
   return {
     cameraManager       : new CameraManager(domoticzApi),
@@ -29,8 +29,8 @@ function useDomoticzApi (options: DomoticzOptions): IDomoticzApi {
 export {
   useDomoticzApi,
 
-  DomoticzApiProvider,
-  DomoticzApiProviderFetch,
+  DomoticzApiOptions,
+  DomoticzApiConnector,
 
   DeviceManager,
   CameraManager,

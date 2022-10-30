@@ -84,7 +84,7 @@
         let backup = { ...options };
         backup.password = "";
         localStorage.setItem("options", JSON.stringify(backup));
-        domoticz = DomoticzApi.useDomoticz(options);
+        domoticz = DomoticzApi.useDomoticzApi(options);
       }
 
       function restore() {
@@ -97,7 +97,7 @@
           $("#dzOpt_username").value = options.username;
           $("#dzOpt_password").value = options.password;
 
-          domoticz = DomoticzApi.Domoticz(options);
+          domoticz = DomoticzApi.useDomoticzApi(options);
         }
       }
 

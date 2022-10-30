@@ -33,7 +33,7 @@ export default {
 
   output : [{
     file   : pkg.module,
-    format : 'es'
+    format : 'esm'
   }, {
     file   : pkg.main,
     format : 'cjs'

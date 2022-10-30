@@ -1,13 +1,14 @@
-import { IGenericResult } from './../interfaces/IGenericResult'
-import { ICommandOptions } from '../interfaces/Command/ICommandOptions'
-import { DOMOTICZ_NOTIFICATOR } from '../enums/Domoticz'
-import { DomoticzApiProvider } from '../index'
+import { IdzResult } from '../types/IdzResult'
+import { IdzCommandOptions } from '../types/IdzCommandOptions'
+import { DomoticzApiConnector } from '../index'
+
 import { DOMOTICZ_COMMAND_PARAM } from '../enums/DomoticzCommandParam'
+import { DOMOTICZ_NOTIFICATOR } from '../enums/Domoticz'
 
 class NotificationManager {
-  domoticzApi: DomoticzApiProvider
+  domoticzApi: DomoticzApiConnector
 
-  constructor (domoticzApi: DomoticzApiProvider) {
+  constructor (domoticzApi: DomoticzApiConnector) {
     this.domoticzApi = domoticzApi
   }
 
@@ -17,8 +18,8 @@ class NotificationManager {
      * @param {string} message
      * @param {notificationType[]} subSystems
      */
-  async send (subject: string, message: string, subSystems?: DOMOTICZ_NOTIFICATOR[]): Promise<IGenericResult> {
-    const options: ICommandOptions = {
+  async send (subject: string, message: string, subSystems?: DOMOTICZ_NOTIFICATOR[]): Promise<IdzResult<null>> {
+    const options: IdzCommandOptions = {
       param : DOMOTICZ_COMMAND_PARAM.SEND_NOTIFICATION,
       subject,
       body  : message

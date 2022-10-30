@@ -1,20 +1,21 @@
-import { IEventsListRecord } from './../interfaces/Events/IEventsListRecord'
-import { DomoticzApiProvider } from '../index'
-import { IEventsListResult } from '../interfaces/Events/IEventsListResult'
+import { IdzEventsListItem } from '../types/IdzEventsListItem'
+import { DomoticzApiConnector } from '../connectors/DomoticzApiConnector'
+import { IdzEventsListResult } from '../types/IdzEventsListResult'
 
 class EventManager {
-  domoticzApi: DomoticzApiProvider
+  domoticzApi: DomoticzApiConnector
 
-  constructor (domoticzApi: DomoticzApiProvider) {
+  constructor (domoticzApi: DomoticzApiConnector) {
     this.domoticzApi = domoticzApi
   }
 
   /**
    * Retrieve all Domoticz Events
    */
-  async items (): Promise<IEventsListRecord[]> {
-    const result = await this.domoticzApi.events({ param: 'list' }) as IEventsListResult
-    return result.result
+  async items (): Promise<IdzEventsListItem[]> {
+    const events = await this.domoticzApi.events({ param: 'list' }) as IdzEventsListResult
+    if (((events?.result) != null) && events.result !== undefined) { return events.result }
+    return []
   }
 }
 

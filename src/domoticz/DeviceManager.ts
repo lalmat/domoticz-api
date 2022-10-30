@@ -1,36 +1,39 @@
 import { DOMOTICZ_DEVICE_HUMIDITY, DOMOTICZ_HUMIDITY, DOMOTICZ_DEVICE, DOMOTICZ_SWITCHCMD } from '../enums/Domoticz'
-import { IDeviceRecord } from '../interfaces/Devices/IDeviceRecord'
-import { DomoticzApiProvider } from '../index'
-import { IGenericResult } from '../interfaces/IGenericResult'
+import { IdzDevice } from '../types/IdzDevice'
+import { DomoticzApiConnector } from '../index'
+import { IdzResult } from '../types/IdzResult'
 import { DOMOTICZ_COMMAND_PARAM } from '../enums/DomoticzCommandParam'
 
 class DeviceManager {
-  domoticzApi: DomoticzApiProvider
+  domoticzApi: DomoticzApiConnector
 
-  constructor (domoticzApi: DomoticzApiProvider) {
+  constructor (domoticzApi: DomoticzApiConnector) {
     this.domoticzApi = domoticzApi
   }
 
   /**
      * Get all devices, including the hidden ones
      */
-  async items (): Promise<IDeviceRecord[]> {
+  async items (): Promise<IdzDevice[]> {
     const devices = await this.domoticzApi.devices({
       used          : true,
       displayhidden : 1
     })
-    return devices.result
+
+    if (((devices?.result) != null) && devices.result !== undefined) { return devices.result }
+    return []
   }
 
   /**
      * Get a specific device
      * @param {number} idx
      */
-  async getByIdx (idx: number): Promise<IDeviceRecord> {
+  async getByIdx (idx: number): Promise<IdzDevice | null> {
     const device = await this.domoticzApi.devices({
       rid : idx
     })
-    return device.result[0]
+    if (((device?.result) != null) && device.result !== undefined && device.result?.length > 0) { return device.result[0] }
+    return null
   }
 
   /**
@@ -38,25 +41,27 @@ class DeviceManager {
      * @param {DOMOTICZ_DEVICE} filter
      * @param {string} orderBy
      */
-  async getByType (filter: DOMOTICZ_DEVICE, orderBy: string = 'Name'): Promise<IDeviceRecord[]> {
+  async getByType (filter: DOMOTICZ_DEVICE, orderBy: string = 'Name'): Promise<IdzDevice[]> {
     const devices = await this.domoticzApi.devices({
       filter,
       used  : true,
       order : orderBy
     })
-    return devices.result
+    if (((devices?.result) != null) && devices.result !== undefined) { return devices.result }
+    return []
   }
 
   /**
      * Return favorites devices
      */
-  async getFavorites (): Promise<IDeviceRecord[]> {
+  async getFavorites (): Promise<IdzDevice[]> {
     const devices = await this.domoticzApi.devices({
       used     : true,
       filter   : DOMOTICZ_DEVICE.ALL,
       favorite : 1
     })
-    return devices.result
+    if (((devices?.result) != null) && devices.result !== undefined) { return devices.result }
+    return []
   }
 
   /**
@@ -64,24 +69,24 @@ class DeviceManager {
      * @param {number} idx
      * @param {DOMOTICZ_SWITCHCMD} command "On|Off"
      */
-  async switch (idx: number, command: DOMOTICZ_SWITCHCMD = DOMOTICZ_SWITCHCMD.ON): Promise<IGenericResult> {
+  async switch (idx: number, command: DOMOTICZ_SWITCHCMD = DOMOTICZ_SWITCHCMD.ON): Promise<IdzResult<null>> {
     return await this.domoticzApi.command({
       param     : DOMOTICZ_COMMAND_PARAM.SWITCH_LIGHT,
       idx,
       switchcmd : command
-    }) as IGenericResult
+    })
   }
 
   /**
      * Ask Domoticz to toggle a Light/Switch
      * @param {number} idx
      */
-  async toggle (idx: number): Promise<IGenericResult> {
+  async toggle (idx: number): Promise<IdzResult<null>> {
     return await this.domoticzApi.command({
       param     : DOMOTICZ_COMMAND_PARAM.SWITCH_LIGHT,
       idx,
       switchcmd : DOMOTICZ_SWITCHCMD.TOGGLE
-    }) as IGenericResult
+    }) as IdzResult<null>
   }
 
   /**
@@ -89,12 +94,12 @@ class DeviceManager {
      * @param {number} idx
      * @param {string} name
      */
-  async rename (idx: number, name: string): Promise<IGenericResult> {
+  async rename (idx: number, name: string): Promise<IdzResult<null>> {
     return await this.domoticzApi.command({
       param : DOMOTICZ_COMMAND_PARAM.RENAME_DEVICE,
       idx,
       name
-    }) as IGenericResult
+    }) as IdzResult<null>
   }
 
   /**
@@ -102,7 +107,7 @@ class DeviceManager {
      * @param {number} idx
      * @param {boolean} enable
      */
-  async protect (idx: number, enable: boolean = true): Promise<IGenericResult> {
+  async protect (idx: number, enable: boolean = true): Promise<IdzResult<null>> {
     return await this.domoticzApi.setUsed({
       used      : true,
       idx,
@@ -117,7 +122,7 @@ class DeviceManager {
      * @param {number} temperature
      * @returns
      */
-  async updateTemperature (idx: number, temperature: number): Promise<IGenericResult> {
+  async updateTemperature (idx: number, temperature: number): Promise<IdzResult<null>> {
     return await this.updateDevice(idx, temperature.toString())
   }
 
@@ -129,7 +134,7 @@ class DeviceManager {
      * @param {DOMOTICZ_HUMIDITY} humidityState [0: Normal, 1: Confortable, 2: Dry, 3: Wet]
      * @returns
      */
-  async updateHumidity (idx: number, humidityPercent: number, humidityState: DOMOTICZ_HUMIDITY): Promise<IGenericResult | null> {
+  async updateHumidity (idx: number, humidityPercent: number, humidityState: DOMOTICZ_HUMIDITY): Promise<IdzResult<null> | null> {
     if (humidityPercent < 0 || humidityPercent > 100) return null
     if (humidityState < 0 || humidityState > 5) return null
     return await this.updateDevice(idx, humidityState.toString(), humidityPercent.toString())
@@ -144,7 +149,7 @@ class DeviceManager {
      *
      * @returns
      */
-  async updateBarometer (idx: number, barometer: number, deviceHumidityType: DOMOTICZ_DEVICE_HUMIDITY): Promise<IGenericResult> {
+  async updateBarometer (idx: number, barometer: number, deviceHumidityType: DOMOTICZ_DEVICE_HUMIDITY): Promise<IdzResult<null>> {
     return await this.updateDevice(idx, `${barometer.toString()};${deviceHumidityType}`)
   }
 
@@ -156,13 +161,13 @@ class DeviceManager {
      * @param {string} nValue
      * @returns
      */
-  async updateDevice (idx: number, svalue: string, nvalue: string = '0'): Promise<IGenericResult> {
+  async updateDevice (idx: number, svalue: string, nvalue: string = '0'): Promise<IdzResult<null>> {
     return await this.domoticzApi.command({
       param : DOMOTICZ_COMMAND_PARAM.UPDATE_DEVICE,
       idx,
       svalue,
       nvalue
-    }) as IGenericResult
+    }) as IdzResult<null>
   }
 }
 
