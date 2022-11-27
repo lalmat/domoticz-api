@@ -4,7 +4,9 @@
 
 The goal of this project is to have an object to easely access a [Domoticz](https://www.domoticz.com) instance. Devices, user variables, send notifications, etc. will be accessible with just function calls. With Domoticz API, it's very easy to build awesome frontend with javascript frameworks like Vue / React / Angular.
 
-This API uses the interfaces as defined at Domoticz API/JSON URL's. This page does not describe all available url's. This API also uses some 'undocumented' api url's.
+This API uses the interfaces as defined at Domoticz API/JSON URL's. This page does not describe all available url's. This API also includes some 'undocumented' api url's.
+
+All the API was rewritten in TypeScript. With full definition of Domoticz Enums & Types.
 
 ## This is a "working" but beta version
 
