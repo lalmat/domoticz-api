@@ -1,8 +1,10 @@
-import { DOMOTICZ_SWITCHCMD } from '../enums/Domoticz'
-import { IdzResult } from '../types/IdzResult'
-import { IdzScene } from '../types/IdzScene'
 import { DomoticzApiConnector } from '../connectors/DomoticzApiConnector'
-import { DOMOTICZ_COMMAND_PARAM } from '../enums/DomoticzCommandParam'
+import {
+  EDZ_COMMAND_PARAM,
+  EDZ_SWITCH_COMMAND,
+  IdzResult,
+  IdzScene
+} from '../types'
 
 class SceneManager {
   domoticzApi: DomoticzApiConnector
@@ -24,11 +26,11 @@ class SceneManager {
    * Switch a state into a specific state
    *
    * @param {number} idx : Domoticz index of the device
-   * @param {DOMOTICZ_SWITCHCMD} command : string of the state, ex: 'Off'
+   * @param {EDZ_SWITCH_COMMAND} command : string of the state, ex: 'Off'
    */
-  async switch (idx: number, command: DOMOTICZ_SWITCHCMD): Promise<IdzResult<null>> {
+  async switch (idx: number, command: EDZ_SWITCH_COMMAND): Promise<IdzResult<null>> {
     return await this.domoticzApi.command({
-      param     : DOMOTICZ_COMMAND_PARAM.SWITCH,
+      param     : EDZ_COMMAND_PARAM.SWITCH,
       idx,
       switchcmd : command
     })
@@ -40,7 +42,7 @@ class SceneManager {
    * @param {number} idx : Domoticz index of the device
    */
   async toggle (idx: number): Promise<IdzResult<null>> {
-    return await this.switch(idx, DOMOTICZ_SWITCHCMD.TOGGLE)
+    return await this.switch(idx, EDZ_SWITCH_COMMAND.TOGGLE)
   }
 }
 

@@ -1,4 +1,4 @@
-export enum DOMOTICZ_LOG_LEVEL {
+export enum EDZ_LOG_LEVEL {
   NORMAL = 1,
   STATUS = 2,
   ERROR = 4,

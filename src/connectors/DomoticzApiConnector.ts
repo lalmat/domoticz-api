@@ -1,12 +1,13 @@
-import { IdzResult } from '../types/IdzResult'
-import { IdzScenesResult } from '../types/IdzScenesResult'
-import { IdzEventsOptions } from '../types/IdzEventsOptions'
-import { IdzDevicesResult } from '../types/IdzDevicesResult'
-import { IdzDevicesOptions } from '../types/IdzDevicesOptions'
-import { IdzCamera } from '../types/IdzCamera'
-import { IdzCommandOptions } from '../types/IdzCommandOptions'
-
 import { b64encode } from '../libs/Base64.js'
+import {
+  IdzResult,
+  IdzScenesResult,
+  IdzEventsOptions,
+  IdzDevicesResult,
+  IdzDevicesOptions,
+  IdzCamera,
+  IdzCommandOptions
+} from '../types'
 
 interface DomoticzApiOptions {
   DomoticzApi?: typeof DomoticzApiConnector
@@ -51,8 +52,8 @@ class DomoticzApiConnector {
     return await this.domoticz({ type: 'cameras' })
   }
 
-  async command (data: IdzCommandOptions): Promise<any> {
-    return await this.domoticz({ type: 'command', ...data })
+  async command (data: IdzCommandOptions, postData?: {}): Promise<any> {
+    return await this.domoticz({ type: 'command', ...data }, postData)
   }
 
   async hardware (): Promise<any> {
@@ -80,7 +81,7 @@ class DomoticzApiConnector {
   }
 
   async checkCredentials (): Promise<IdzResult<null>> {
-    return await this.__generic('GET', `${this.url('json.htm')}?api-call`)
+    return await this.__generic('GET', `${this.url('json.htm')}&api-call`)
   }
 
   // TOOLING
@@ -88,14 +89,25 @@ class DomoticzApiConnector {
     return await this.__generic('GET', this.url(`${uri}`))
   }
 
-  async domoticz (data: Object): Promise<any> {
-    return await this.__generic('GET', this.endpoint.toString(), data)
+  async domoticz (data: Object, postData?: any): Promise<any> {
+    const method = postData === undefined ? 'GET' : 'POST'
+    return await this.__generic(method, this.endpoint.toString(), data, postData)
+  }
+
+  async login (username, password, rememberMe): Promise<any> {
+    return await this.__login(username, password, rememberMe)
   }
 
   // Want to write an new HTTP manager (other than fetch) just create a new
   // DomoticzApiProvider[foobar].js and implement only this method.
   // @ts-expect-error
-  async __generic (method: string, endpoint: string, data?: Object, content?: string): Promise<any> {
+  async __generic (method: string, endpoint: string, data?: Object, content?: {}): Promise<any> {
+    return await new Promise(() => null)
+  }
+
+  // Not working everywhere because of CORS
+  // @ts-expect-error
+  async __login (username: string, password: string, rememberMe: boolean): Promise<any> {
     return await new Promise(() => null)
   }
 }

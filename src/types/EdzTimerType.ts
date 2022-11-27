@@ -1,4 +1,4 @@
-export enum DOMOTICZ_TIMER_TYPE {
+export enum EDZ_TIMER_TYPE {
   BEFORE_SUNRISE = 0,
   AFTER_SUNRISE = 1,
   ON_TIME = 2,

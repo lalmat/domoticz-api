@@ -1,4 +1,4 @@
-export enum DOMOTICZ_USER_VARIABLE {
+export enum EDZ_USER_VARIABLE {
   INTEGER = 0,
   FLOAT = 1,
   STRING = 2,

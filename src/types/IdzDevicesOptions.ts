@@ -1,9 +1,9 @@
-import { DOMOTICZ_DEVICE } from '../enums/Domoticz'
+import { EDZ_DEVICE } from './EdzDevice'
 
 export interface IdzDevicesOptions {
   // type: String
   rid?: number
-  filter?: DOMOTICZ_DEVICE
+  filter?: EDZ_DEVICE
   used?: boolean
   order?: string
   displayhidden?: number

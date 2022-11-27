@@ -51,4 +51,5 @@ export interface IdzDevice {
   YOffset: number
   idx: number
   Temp: number
+  ForecastStr: string
 }

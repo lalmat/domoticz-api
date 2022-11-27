@@ -1,4 +1,4 @@
-export enum DOMOTICZ_COMMAND_PARAM {
+export enum EDZ_COMMAND_PARAM {
   ADD_CAMERA = 'addcamera',
   ADD_LOG_MESSAGE = 'addlogmessage',
   ADD_SCENE_DEVICE = 'addscenedevice',
@@ -80,5 +80,13 @@ export enum DOMOTICZ_COMMAND_PARAM {
   UPDATE_NOTIFICATION = 'updatenotification',
   VACCUM_DATABASE = 'vaccumdatabase',
 
-  ZWAVE_BATTERY_LEVELS = 'zwavegetbatterylevels'
+  ZWAVE_BATTERY_LEVELS = 'zwavegetbatterylevels',
+
+  // Not documented but found in Domoticz Source code
+  GET_DEVICE_VALUE_OPTIONS = 'getdevicevalueoptions',
+  LOGOUT = 'dologout',
+  GET_UPTIME = 'GetUptime',
+  MAKE_FAVORITE = 'makefavorite',
+  GET_DEVICES = 'devices',
+  LOGIN_CHECK = 'logincheck'
 }

@@ -1,8 +1,13 @@
-import { DOMOTICZ_DEVICE_HUMIDITY, DOMOTICZ_HUMIDITY, DOMOTICZ_DEVICE, DOMOTICZ_SWITCHCMD } from '../enums/Domoticz'
-import { IdzDevice } from '../types/IdzDevice'
 import { DomoticzApiConnector } from '../index'
-import { IdzResult } from '../types/IdzResult'
-import { DOMOTICZ_COMMAND_PARAM } from '../enums/DomoticzCommandParam'
+import {
+  EDZ_COMMAND_PARAM,
+  EDZ_DEVICE_HUMIDITY,
+  EDZ_HUMIDITY,
+  EDZ_DEVICE,
+  EDZ_SWITCH_COMMAND,
+  IdzDevice,
+  IdzResult
+} from '../types'
 
 class DeviceManager {
   domoticzApi: DomoticzApiConnector
@@ -12,8 +17,8 @@ class DeviceManager {
   }
 
   /**
-     * Get all devices, including the hidden ones
-     */
+   * Get all devices, including the hidden ones
+   */
   async items (): Promise<IdzDevice[]> {
     const devices = await this.domoticzApi.devices({
       used          : true,
@@ -25,9 +30,22 @@ class DeviceManager {
   }
 
   /**
-     * Get a specific device
-     * @param {number} idx
-     */
+   * Get all devices idx, names, and statuses without details
+   * @returns
+   */
+  async itemsList (): Promise<any[]> {
+    const devices = await this.domoticzApi.command({
+      param : EDZ_COMMAND_PARAM.GET_DEVICES
+    })
+
+    if (((devices?.result) != null) && devices.result !== undefined) { return devices.result }
+    return []
+  }
+
+  /**
+   * Get a specific device using the device identifier Idx
+   * @param {number} idx
+   */
   async getByIdx (idx: number): Promise<IdzDevice | null> {
     const device = await this.domoticzApi.devices({
       rid : idx
@@ -37,11 +55,11 @@ class DeviceManager {
   }
 
   /**
-     * Retrieve devices of a specific type
-     * @param {DOMOTICZ_DEVICE} filter
-     * @param {string} orderBy
-     */
-  async getByType (filter: DOMOTICZ_DEVICE, orderBy: string = 'Name'): Promise<IdzDevice[]> {
+   * Retrieve all devices of a specified type
+   * @param {EDZ_DEVICE} filter
+   * @param {string} orderBy
+   */
+  async getByType (filter: EDZ_DEVICE, orderBy: string = 'Name'): Promise<IdzDevice[]> {
     const devices = await this.domoticzApi.devices({
       filter,
       used  : true,
@@ -52,12 +70,12 @@ class DeviceManager {
   }
 
   /**
-     * Return favorites devices
-     */
+   * Return devices marked as *favorites*
+   */
   async getFavorites (): Promise<IdzDevice[]> {
     const devices = await this.domoticzApi.devices({
       used     : true,
-      filter   : DOMOTICZ_DEVICE.ALL,
+      filter   : EDZ_DEVICE.ALL,
       favorite : 1
     })
     if (((devices?.result) != null) && devices.result !== undefined) { return devices.result }
@@ -65,13 +83,13 @@ class DeviceManager {
   }
 
   /**
-     * Ask Domoticz to action a Light/Switch
-     * @param {number} idx
-     * @param {DOMOTICZ_SWITCHCMD} command "On|Off"
-     */
-  async switch (idx: number, command: DOMOTICZ_SWITCHCMD = DOMOTICZ_SWITCHCMD.ON): Promise<IdzResult<null>> {
+   * Action a Light/Switch
+   * @param {number} idx
+   * @param {EDZ_SWITCH_COMMAND} command "On|Off"
+   */
+  async switch (idx: number, command: EDZ_SWITCH_COMMAND = EDZ_SWITCH_COMMAND.ON): Promise<IdzResult<null>> {
     return await this.domoticzApi.command({
-      param     : DOMOTICZ_COMMAND_PARAM.SWITCH_LIGHT,
+      param     : EDZ_COMMAND_PARAM.SWITCH_LIGHT,
       idx,
       switchcmd : command
     })
@@ -83,9 +101,9 @@ class DeviceManager {
      */
   async toggle (idx: number): Promise<IdzResult<null>> {
     return await this.domoticzApi.command({
-      param     : DOMOTICZ_COMMAND_PARAM.SWITCH_LIGHT,
+      param     : EDZ_COMMAND_PARAM.SWITCH_LIGHT,
       idx,
-      switchcmd : DOMOTICZ_SWITCHCMD.TOGGLE
+      switchcmd : EDZ_SWITCH_COMMAND.TOGGLE
     }) as IdzResult<null>
   }
 
@@ -96,7 +114,7 @@ class DeviceManager {
      */
   async rename (idx: number, name: string): Promise<IdzResult<null>> {
     return await this.domoticzApi.command({
-      param : DOMOTICZ_COMMAND_PARAM.RENAME_DEVICE,
+      param : EDZ_COMMAND_PARAM.RENAME_DEVICE,
       idx,
       name
     }) as IdzResult<null>
@@ -131,10 +149,10 @@ class DeviceManager {
      *
      * @param {number} idx Domoticz Device ID
      * @param {number} humidityPercent  Ex: 45
-     * @param {DOMOTICZ_HUMIDITY} humidityState [0: Normal, 1: Confortable, 2: Dry, 3: Wet]
+     * @param {EDZ_HUMIDITY} humidityState [0: Normal, 1: Confortable, 2: Dry, 3: Wet]
      * @returns
      */
-  async updateHumidity (idx: number, humidityPercent: number, humidityState: DOMOTICZ_HUMIDITY): Promise<IdzResult<null> | null> {
+  async updateHumidity (idx: number, humidityPercent: number, humidityState: EDZ_HUMIDITY): Promise<IdzResult<null> | null> {
     if (humidityPercent < 0 || humidityPercent > 100) return null
     if (humidityState < 0 || humidityState > 5) return null
     return await this.updateDevice(idx, humidityState.toString(), humidityPercent.toString())
@@ -149,7 +167,7 @@ class DeviceManager {
      *
      * @returns
      */
-  async updateBarometer (idx: number, barometer: number, deviceHumidityType: DOMOTICZ_DEVICE_HUMIDITY): Promise<IdzResult<null>> {
+  async updateBarometer (idx: number, barometer: number, deviceHumidityType: EDZ_DEVICE_HUMIDITY): Promise<IdzResult<null>> {
     return await this.updateDevice(idx, `${barometer.toString()};${deviceHumidityType}`)
   }
 
@@ -163,7 +181,7 @@ class DeviceManager {
      */
   async updateDevice (idx: number, svalue: string, nvalue: string = '0'): Promise<IdzResult<null>> {
     return await this.domoticzApi.command({
-      param : DOMOTICZ_COMMAND_PARAM.UPDATE_DEVICE,
+      param : EDZ_COMMAND_PARAM.UPDATE_DEVICE,
       idx,
       svalue,
       nvalue

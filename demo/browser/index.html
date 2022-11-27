@@ -4,7 +4,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Domoticz Demo</title>
     <link rel="stylesheet" href="./style.css" />
-    <script src="../../dist/domoticz-api.iife.js"></script>
+    <script src="../../node_modules/blueimp-md5/js/md5.min.js"></script>
+    <script src="../../dist/domoticz-api.iife.js?random=12"></script>
     <script>
       var domoticz = null;
       var hostname = null;
@@ -28,6 +29,11 @@
             log(domoticz.systemManager.log("Hello from Domoticz API \\o/"));
             break;
 
+          case "uptime":
+            log(domoticz.deviceManager.items2());
+            break;
+
+
           case "times":
             log(domoticz.systemManager.datetimes());
             break;
@@ -37,22 +43,15 @@
             break;
 
           case "getLights":
-            log(
-              domoticz.deviceManager.getByType(DomoticzApi.DOMOTICZ_DEVICE.LIGHT)
-            );
+            log(domoticz.deviceManager.getByType(DomoticzApi.DOMOTICZ_DEVICE.LIGHT));
             break;
 
           case "notify":
-            log(
-              domoticz.notificationManager.send(
-                "Sample Nofitification",
-                "Notification send using DomoticzAPI"
-              )
-            );
+            log(domoticz.notificationManager.send("Sample Nofitification", "Notification send using DomoticzAPI"));
             break;
 
           case "cameras":
-            console.log(await domoticz.cameraManager.items());
+            log(domoticz.cameraManager.items());
             break;
         }
       }
@@ -61,13 +60,12 @@
         log(await domoticz.deviceManager.switch($("#test_idx").value, value));
       }
 
+      async function getValueOptions(value) {
+        log(await domoticz.deviceManager.getValueOptions($("#test_idx").value));
+      }
+
       async function testUpdateTemp() {
-        log(
-          await domoticz.deviceManager.updateTemperature(
-            $("#test_idx").value,
-            $("#test_svalue").value
-          )
-        );
+        log(domoticz.deviceManager.updateTemperature($("#test_idx").value, $("#test_svalue").value));
       }
 
       // Demo Tools Functions ---------------------------------------------------------------
@@ -84,19 +82,21 @@
         let backup = { ...options };
         backup.password = "";
         localStorage.setItem("options", JSON.stringify(backup));
+        sessionStorage.setItem("pwd", options.password);
         domoticz = DomoticzApi.useDomoticzApi(options);
       }
 
       function restore() {
         const options = JSON.parse(localStorage.getItem("options"));
+        const password = sessionStorage.getItem('pwd');
+
+        $("#dzOpt_password").value = password;
 
         if (options.hostname) {
           $("#dzOpt_host").value = options.hostname;
           $("#dzOpt_ssl").checked = options.useSSL;
           $("#dzOpt_port").value = options.port;
           $("#dzOpt_username").value = options.username;
-          $("#dzOpt_password").value = options.password;
-
           domoticz = DomoticzApi.useDomoticzApi(options);
         }
       }
@@ -198,5 +198,6 @@
         <button type="button" onclick="testUpdateTemp()">Set Temp.</button>
       </div>
     </div>
+
   </body>
 </html>

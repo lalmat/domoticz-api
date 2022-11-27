@@ -1,4 +1,4 @@
-import { DOMOTICZ_DEVICE } from '../enums/DomoticzDevice'
+import { EDZ_DEVICE } from './EdzDevice'
 
 export interface IdzRoomDevice {
   DevSceneRowID: number
@@ -6,5 +6,5 @@ export interface IdzRoomDevice {
   devidx: number
   idx: number
   order: number
-  type: DOMOTICZ_DEVICE
+  type: EDZ_DEVICE
 }

@@ -1,4 +1,4 @@
-export enum DOMOTICZ_DAY {
+export enum EDZ_DAY {
   EVERYDAY = 0x80,
   WEEKDAYS = 0x100,
   WEEKENDS = 0x200,

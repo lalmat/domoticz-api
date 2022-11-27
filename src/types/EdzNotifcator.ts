@@ -1,4 +1,4 @@
-export enum DOMOTICZ_NOTIFICATOR {
+export enum EDZ_NOTIFICATOR {
   FCM = 'fcm',
   HTTP = 'http',
   KODI = 'kodi',

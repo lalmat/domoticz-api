@@ -1,6 +1,6 @@
-import { DOMOTICZ_LOG_LEVEL } from '../enums/Domoticz'
+import { EDZ_LOG_LEVEL } from './EdzLogLevel'
 
 export interface IdzLog {
-  level: DOMOTICZ_LOG_LEVEL
+  level: EDZ_LOG_LEVEL
   message: String
 }

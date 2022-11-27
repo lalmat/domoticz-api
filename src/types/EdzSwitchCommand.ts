@@ -1,4 +1,4 @@
-export enum DOMOTICZ_SWITCHCMD {
+export enum EDZ_SWITCH_COMMAND {
   ON = 'On',
   OFF = 'Off',
   TOGGLE = 'Toggle',

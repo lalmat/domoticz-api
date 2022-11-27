@@ -1,4 +1,4 @@
-export enum DOMOTICZ_EVOHOME_STATUS {
+export enum EDZ_EVOHOME_STATUS {
   AUTO = 'Auto',
   AUTO_WITH_RESET = 'AutoWithReset',
   AUTO_WITH_ECO = 'AutoWithEco',

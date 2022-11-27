@@ -1,4 +1,4 @@
-export enum DOMOTICZ_HUMIDITY {
+export enum EDZ_HUMIDITY {
   NORMAL = 1,
   CONFORTABLE = 2,
   DRY = 3,

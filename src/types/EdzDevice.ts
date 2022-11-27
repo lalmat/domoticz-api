@@ -1,4 +1,4 @@
-export enum DOMOTICZ_DEVICE {
+export enum EDZ_DEVICE {
   LIGHT = 'light',
   WEATHER = 'weather',
   TEMP = 'temp',

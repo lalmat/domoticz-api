@@ -1,7 +1,4 @@
-export interface IPosition {
-  Latitude: Number
-  Longitude: Number
-}
+import { IdzPosition } from './IdzPosition'
 
 export interface IdzSettingsResult {
   AcceptNewHardware: Number
@@ -77,7 +74,7 @@ export interface IdzSettingsResult {
   LmsDuration: Number
   LmsEnabled: Boolean
   LmsPlayerMac: String
-  Location: IPosition
+  Location: IdzPosition
   LogEventScriptTrigger: Number
   MaxElectricPower: Number
   MobileType: Number

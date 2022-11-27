@@ -1,4 +1,4 @@
-export enum DOMOTICZ_DEVICE_HUMIDITY {
+export enum EDZ_DEVICE_HUMIDITY {
   HEAVY_SNOW = 0,
   SNOW = 1,
   HEAVY_RAIN = 2,

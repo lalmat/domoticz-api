@@ -1,4 +1,4 @@
-export enum DOMOTICZ_SUBTYPE {
+export enum EDZ_SUB_TYPE {
   ONOFF = 0,
   DOORBELL = 1,
   CONTACT = 2,

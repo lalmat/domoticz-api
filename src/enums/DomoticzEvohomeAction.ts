@@ -1,4 +1,0 @@
-export enum DOMOTICZ_EVOHOME_ACTIONS {
-  RUN_ON_SCRIPT = 1,
-  DISABLE = 0
-}

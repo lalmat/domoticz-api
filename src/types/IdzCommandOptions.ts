@@ -1,19 +1,19 @@
-import { DOMOTICZ_EVOHOME_OOC } from '../enums/DomoticzEvohomeOOC'
-import { DOMOTICZ_EVOHOME_STATUS } from '../enums/DomoticzEvohomeStatus'
-import { DOMOTICZ_EVOHOME_ACTIONS } from '../enums/DomoticzEvohomeAction'
-import { DOMOTICZ_USER_VARIABLE } from '../enums/DomotizUserVariable'
-import { DOMOTICZ_SECURITY_STATUS } from '../enums/DomoticzSecurityStatus'
 import {
-  DOMOTICZ_LOG_LEVEL,
-  DOMOTICZ_NOTIFICATOR,
-  DOMOTICZ_SWITCHCMD,
-  DOMOTICZ_TIMER_TYPE
-} from '../enums/Domoticz'
-import { DOMOTICZ_COMMAND_PARAM } from '../enums/DomoticzCommandParam'
+  EDZ_EVOHOME_OOC,
+  EDZ_EVOHOME_STATUS,
+  EDZ_EVOHOME_ACTIONS,
+  EDZ_USER_VARIABLE,
+  EDZ_SECURITY_STATUS,
+  EDZ_LOG_LEVEL,
+  EDZ_NOTIFICATOR,
+  EDZ_SWITCH_COMMAND,
+  EDZ_TIMER_TYPE,
+  EDZ_COMMAND_PARAM
+} from './index'
 
 export interface IdzCommandOptions {
   // type: 'command'
-  param: DOMOTICZ_COMMAND_PARAM
+  param: EDZ_COMMAND_PARAM
   subject?: string
   message?: string
   body?: string
@@ -21,7 +21,7 @@ export interface IdzCommandOptions {
   extradata?: string
   timeout?: number
   idx?: number
-  switchcmd?: DOMOTICZ_SWITCHCMD
+  switchcmd?: EDZ_SWITCH_COMMAND
   level?: number
   passcode?: string
   nvalue?: string
@@ -45,24 +45,24 @@ export interface IdzCommandOptions {
   command?: string
   cmnd?: string
   active?: boolean
-  timertype?: DOMOTICZ_TIMER_TYPE
+  timertype?: EDZ_TIMER_TYPE
   date?: string
   hour?: string
   min?: string
   randomness?: boolean
   days?: string
   lastlogtime?: string
-  loglevel?: DOMOTICZ_LOG_LEVEL
+  loglevel?: EDZ_LOG_LEVEL
   sceneidx?: number
   scenetype?: string
   onaction?: string
   offaction?: string
   htype?: number
   used?: boolean
-  secstatus?: DOMOTICZ_SECURITY_STATUS
+  secstatus?: EDZ_SECURITY_STATUS
   seccode?: string
   vname?: string
-  vtype?: DOMOTICZ_USER_VARIABLE
+  vtype?: EDZ_USER_VARIABLE
   vvalue?: string
   event?: string
   data?: string
@@ -72,13 +72,14 @@ export interface IdzCommandOptions {
   tmsg?: string
   tpriority?: number
   tsendalways?: boolean
-  tsystems?: DOMOTICZ_NOTIFICATOR[]
+  tsystems?: EDZ_NOTIFICATOR[]
   tvalue?: number
   twhen?: number
   ttype?: string
-  action?: DOMOTICZ_EVOHOME_ACTIONS
-  status?: DOMOTICZ_EVOHOME_STATUS
-  ooc?: DOMOTICZ_EVOHOME_OOC
+  action?: EDZ_EVOHOME_ACTIONS
+  status?: EDZ_EVOHOME_STATUS
+  ooc?: EDZ_EVOHOME_OOC
   until?: string
   valuelist?: string
+  rememberme?: boolean
 }
